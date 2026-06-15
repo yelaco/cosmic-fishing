@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cosmic Fishing</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <noscript>
+    <div style="padding:2rem;font-family:monospace;background:#111;color:#f90;text-align:center">
+      <p>JavaScript is required to run Cosmic Fishing.</p>
+      <p>ES module imports are blocked on <code>file://</code> URLs.</p>
+      <p>Run via: <code>python -m http.server 8080</code> then open <a href="http://localhost:8080">http://localhost:8080</a></p>
+    </div>
+  </noscript>
+
+  <div id="resource-bar"></div>
+  <div id="event-banner"></div>
+  <div id="ascension-marker"></div>
+
+  <main>
+    <section id="cast-area"></section>
+    <section id="realm-panel"></section>
+
+    <nav id="tab-nav">
+      <button data-tab="tab-encyclopedia">Encyclopedia</button>
+      <button data-tab="tab-upgrades">Upgrades</button>
+      <button data-tab="tab-research">Research</button>
+      <button data-tab="tab-automation">Automation</button>
+      <button data-tab="tab-events">Events</button>
+      <button data-tab="tab-ascension">Ascension</button>
+      <button data-tab="tab-statistics">Statistics</button>
+      <button data-tab="tab-settings">Settings</button>
+    </nav>
+
+    <div id="tab-encyclopedia" class="tab-panel"></div>
+    <div id="tab-upgrades" class="tab-panel"></div>
+    <div id="tab-research" class="tab-panel"></div>
+    <div id="tab-automation" class="tab-panel"></div>
+    <div id="tab-events" class="tab-panel"></div>
+    <div id="tab-ascension" class="tab-panel"></div>
+    <div id="tab-statistics" class="tab-panel"></div>
+    <div id="tab-settings" class="tab-panel"></div>
+  </main>
+
+  <div id="achievement-popups"></div>
+  <div id="overlay-root"></div>
+  <div id="welcome-back"></div>
+
+  <script type="module" src="ui/main.js"></script>
+</body>
+</html>
