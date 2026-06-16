@@ -5,6 +5,7 @@ import { sellCatch, researchCatch, addGold, addRp, aggregateEffects, purchaseUpg
 import { resolveCatch, resolveNetCatch } from './rarity.js';
 import UPGRADES from '../data/upgrades.js';
 import { GameState, Bus, sessionFlags } from './state.js';
+import { recordCatch } from './gameLoop.js';
 
 // ─── Internal constants ────────────────────────────────────────────────────────
 
@@ -66,12 +67,18 @@ function _dispatchCatch(catchObj) {
         sessionFlags.hiddenAccumulator.gold += catchObj.sellValue ?? 0;
       }
     }
-    // Emit so the UI / gameLoop can still record stats
+    // Record stats and encyclopedia even while tab is hidden.
+    catchObj.isNewDiscovery = !(GameState.encyclopediaDiscoveries &&
+      GameState.encyclopediaDiscoveries[catchObj.speciesId]);
+    recordCatch(catchObj);
     Bus.emit('catch:new', catchObj);
     return;
   }
 
   // Normal (tab visible) path
+  catchObj.isNewDiscovery = !(GameState.encyclopediaDiscoveries &&
+    GameState.encyclopediaDiscoveries[catchObj.speciesId]);
+  recordCatch(catchObj);
   Bus.emit('catch:new', catchObj);
 
   if (!autoSell) return;
@@ -154,6 +161,9 @@ export function tickAutomation(dt) {
       _netTimer -= netInterval;
       const netCatch = resolveNetCatch(realm, { bonuses });
 
+      netCatch.isNewDiscovery = !(GameState.encyclopediaDiscoveries &&
+        GameState.encyclopediaDiscoveries[netCatch.speciesId]);
+      recordCatch(netCatch);
       if (sessionFlags.tabHidden) {
         sessionFlags.hiddenAccumulator.fish  += 1;
         sessionFlags.hiddenAccumulator.gold  += netCatch.sellValue ?? 0;
