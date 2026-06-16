@@ -5,8 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Cosmic Fishing</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="ui/fishingScene.css">
 </head>
 <body>
+  <div id="cosmic-bg" aria-hidden="true"></div>
   <noscript>
     <div style="padding:2rem;font-family:monospace;background:#111;color:#f90;text-align:center">
       <p>JavaScript is required to run Cosmic Fishing.</p>
@@ -31,6 +33,7 @@
       <button data-tab="tab-events">Events</button>
       <button data-tab="tab-ascension">Ascension</button>
       <button data-tab="tab-statistics">Statistics</button>
+      <button data-tab="tab-achievements">Achievements</button>
       <button data-tab="tab-settings">Settings</button>
     </nav>
 
@@ -41,6 +44,7 @@
     <div id="tab-events" class="tab-panel"></div>
     <div id="tab-ascension" class="tab-panel"></div>
     <div id="tab-statistics" class="tab-panel"></div>
+    <div id="tab-achievements" class="tab-panel"></div>
     <div id="tab-settings" class="tab-panel"></div>
   </main>
 

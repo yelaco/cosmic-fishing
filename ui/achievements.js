@@ -3,6 +3,7 @@
 
 import { GameState, Bus } from '../engine/state.js';
 import ACHIEVEMENTS from '../data/achievements.js';
+import { openCardDetail, bindCardGrid } from './cardDetail.js';
 
 // Track how many events we've witnessed (not persisted — session count used as fallback).
 let _sessionEventsWitnessed = 0;
@@ -187,55 +188,108 @@ function escapeHtml(str) {
 }
 
 // ---------------------------------------------------------------------------
-// Panel list rendering
+// Panel trophy-grid rendering
 // ---------------------------------------------------------------------------
 
+function describeCondition(condition) {
+  if (!condition) return 'Complete a special task.';
+  const { type, value } = condition;
+  switch (type) {
+    case 'cast_count':
+      return 'Cast ' + value + ' time' + (value === 1 ? '' : 's') + '.';
+    case 'catch_rarity':
+      return 'Catch a ' + value + ' fish.';
+    case 'unlock_realm':
+      return 'Unlock the ' + value.replace(/_/g, ' ') + ' realm.';
+    case 'discover_species_count':
+      return 'Discover ' + value + ' species.';
+    case 'catch_impossible':
+      return 'Catch ' + value + ' impossible fish.';
+    case 'purchase_automation':
+      return 'Purchase the ' + value.replace(/_/g, ' ') + ' automation.';
+    case 'complete_ascension':
+      return 'Complete ' + value + ' ascension' + (value === 1 ? '' : 's') + '.';
+    case 'earn_gold':
+      return 'Earn ' + value.toLocaleString() + ' gold lifetime.';
+    case 'complete_research_count':
+      return 'Complete ' + value + ' research' + (value === 1 ? '' : ' studies') + '.';
+    case 'witness_event':
+      return 'Witness ' + value + ' cosmic event' + (value === 1 ? '' : 's') + '.';
+    case 'species_id':
+      return 'Catch the species with id "' + value + '".';
+    case 'custom':
+      switch (value) {
+        case 'offline_30min_autocast': return 'Auto-cast for 30 minutes while offline.';
+        case 'memories_3':            return 'Collect 3 Cosmic Memories.';
+        case 'all_impossible':        return 'Catch every impossible-rarity species.';
+        default:                      return 'Complete a special task.';
+      }
+    default:
+      return 'Complete a special task.';
+  }
+}
+
+function resolveDetail(id /*, kind */) {
+  const ach = ACHIEVEMENTS.find(a => a.id === id);
+  if (!ach) return null;
+  const record = GameState.unlockedAchievements[ach.id];
+  const unlocked = !!record;
+  const ts = unlocked ? record.ts : null;
+
+  const chipHtml = unlocked ? ach.icon : '🔒';
+  const conditionLine = '<p class="ach-detail-condition">' + escapeHtml(describeCondition(ach.condition)) + '</p>';
+  const flavorLine    = '<p class="ach-detail-flavor">' + escapeHtml(ach.flavorText) + '</p>';
+  const tsLine = (unlocked && ts)
+    ? '<time class="ach-detail-ts" datetime="' + new Date(ts).toISOString() + '">' +
+        'Unlocked ' + new Date(ts).toLocaleString() + '</time>'
+    : '<span class="ach-detail-locked-note">Not yet unlocked.</span>';
+
+  return {
+    title:      ach.name,
+    chipHtml,
+    bodyHtml:   flavorLine + conditionLine + tsLine,
+    rarityClass: unlocked ? 'trophy-detail--unlocked' : 'trophy-detail--locked',
+  };
+}
+
 function renderPanel(panelEl) {
-  panelEl.innerHTML = '';
-  const heading = document.createElement('h2');
-  heading.textContent = 'Achievements';
-  panelEl.appendChild(heading);
+  const total    = ACHIEVEMENTS.length;
+  const unlocked = ACHIEVEMENTS.filter(a => !!GameState.unlockedAchievements[a.id]).length;
+  const pct      = total > 0 ? Math.round((unlocked / total) * 100) : 0;
 
-  const list = document.createElement('ul');
-  list.className = 'achievement-list';
-
+  let cards = '';
   for (const ach of ACHIEVEMENTS) {
-    const unlocked = !!GameState.unlockedAchievements[ach.id];
-    const ts = unlocked ? GameState.unlockedAchievements[ach.id].ts : null;
+    const isUnlocked = !!GameState.unlockedAchievements[ach.id];
+    const chipIcon   = isUnlocked ? ach.icon : '🔒';
+    const lockedCls  = isUnlocked ? '' : ' trophy--locked game-card--locked';
+    const badgeCls   = isUnlocked ? ' --owned' : '';
+    const badgeText  = isUnlocked ? 'Unlocked' : 'Locked';
 
-    const item = document.createElement('li');
-    item.className = 'achievement-item' + (unlocked ? ' ach-unlocked' : ' ach-locked');
-    item.innerHTML =
-      '<span class="ach-icon">' + (unlocked ? ach.icon : '🔒') + '</span>' +
-      '<div class="ach-text">' +
-        '<strong class="ach-name">' + escapeHtml(ach.name) + '</strong>' +
-        '<span class="ach-flavor">' + escapeHtml(ach.flavorText) + '</span>' +
-        (unlocked && ts
-          ? '<time class="ach-ts" datetime="' + new Date(ts).toISOString() + '">' +
-              'Unlocked ' + new Date(ts).toLocaleString() + '</time>'
-          : '') +
+    cards +=
+      '<div class="game-card trophy' + lockedCls + '"' +
+          ' data-detail-id="' + escapeHtml(ach.id) + '"' +
+          ' data-detail-kind="achievement"' +
+          ' role="button" tabindex="0" aria-haspopup="dialog">' +
+        '<div class="game-card__chip">' + chipIcon + '</div>' +
+        '<div class="game-card__name">' + escapeHtml(ach.name) + '</div>' +
+        '<span class="status-badge' + badgeCls + '">' + badgeText + '</span>' +
       '</div>';
-    list.appendChild(item);
   }
 
-  panelEl.appendChild(list);
+  panelEl.innerHTML =
+    '<h2>Achievements</h2>' +
+    '<p class="ach-progress-label">Unlocked ' + unlocked + ' / ' + total + '</p>' +
+    '<div class="progress-bar-wrap" role="progressbar" aria-valuenow="' + pct + '" aria-valuemin="0" aria-valuemax="100">' +
+      '<div class="progress-bar-fill" style="width:' + pct + '%"></div>' +
+    '</div>' +
+    '<div class="game-grid">' + cards + '</div>';
+
+  bindCardGrid(panelEl, resolveDetail);
 }
 
 function mountPanel() {
-  // Try to find an existing panel container first.
-  let panelEl = document.getElementById('achievement-panel');
-  if (!panelEl) {
-    // Append near #tab-settings or body as fallback.
-    panelEl = document.createElement('section');
-    panelEl.id = 'achievement-panel';
-    panelEl.className = 'achievement-panel';
-    const settingsTab = document.getElementById('tab-settings');
-    if (settingsTab && settingsTab.parentNode) {
-      settingsTab.parentNode.insertBefore(panelEl, settingsTab.nextSibling);
-    } else {
-      document.body.appendChild(panelEl);
-    }
-  }
+  const panelEl = document.getElementById('tab-achievements');
+  if (!panelEl) return null;
   renderPanel(panelEl);
   return panelEl;
 }

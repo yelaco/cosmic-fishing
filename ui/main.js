@@ -18,12 +18,13 @@ import { initAscensionTab } from './ascensionTab.js';
 import { initStatisticsTab } from './statisticsTab.js';
 import { initSettingsTab } from './settingsTab.js';
 import { initAchievements } from './achievements.js';
+import { initFishingScene } from './fishingScene.js';
 
 // ─── Tab navigation ────────────────────────────────────────────────────────────
 
 const TAB_IDS = [
   'encyclopedia', 'upgrades', 'research', 'automation',
-  'events', 'ascension', 'statistics', 'settings'
+  'events', 'ascension', 'statistics', 'achievements', 'settings'
 ];
 
 const DEFAULT_TAB = 'encyclopedia';
@@ -34,12 +35,23 @@ function switchTab(name) {
   const id = String(name).replace(/^tab-/, '');
   for (const tabId of TAB_IDS) {
     const panel = document.getElementById('tab-' + tabId);
-    if (panel) panel.hidden = (tabId !== id);
+    if (panel) {
+      const active = (tabId === id);
+      panel.classList.toggle('active', active);
+      panel.setAttribute('aria-hidden', active ? 'false' : 'true');
+      panel.hidden = !active;
+    }
   }
   const buttons = document.querySelectorAll('[data-tab]');
   for (const btn of buttons) {
-    btn.classList.toggle('active', btn.dataset.tab.replace(/^tab-/, '') === id);
+    const active = btn.dataset.tab.replace(/^tab-/, '') === id;
+    btn.classList.toggle('active', active);
+    btn.setAttribute('aria-selected', active ? 'true' : 'false');
+    btn.tabIndex = active ? 0 : -1;
   }
+  try {
+    localStorage.setItem('cosmic_fishing_active_tab', id);
+  } catch (_) { /* localStorage may throw in some contexts */ }
 }
 
 // ─── Welcome-back overlay (FR-112, C6) ────────────────────────────────────────
@@ -141,6 +153,7 @@ function boot() {
   const inits = [
     ['initResourceBar',    initResourceBar],
     ['initCastPanel',      initCastPanel],
+    ['initFishingScene',   initFishingScene],
     ['initRealmPanel',     initRealmPanel],
     ['initEncyclopediaTab',initEncyclopediaTab],
     ['initUpgradesTab',    initUpgradesTab],
@@ -161,13 +174,51 @@ function boot() {
   }
 
   // 6. Tab navigation
+  const tabNav = document.getElementById('tab-nav');
+  if (tabNav) tabNav.setAttribute('role', 'tablist');
+
   const tabButtons = document.querySelectorAll('[data-tab]');
   for (const btn of tabButtons) {
+    const tabName = btn.dataset.tab.replace(/^tab-/, '');
+    btn.setAttribute('role', 'tab');
+    btn.setAttribute('id', 'tabbtn-' + tabName);
+    btn.setAttribute('aria-controls', 'tab-' + tabName);
     btn.addEventListener('click', function () {
       switchTab(this.dataset.tab);
     });
   }
-  switchTab(DEFAULT_TAB);
+  for (const tabId of TAB_IDS) {
+    const panel = document.getElementById('tab-' + tabId);
+    if (panel) {
+      panel.setAttribute('role', 'tabpanel');
+      panel.setAttribute('aria-labelledby', 'tabbtn-' + tabId);
+    }
+  }
+
+  if (tabNav) {
+    tabNav.addEventListener('keydown', function (e) {
+      const btns = Array.from(tabNav.querySelectorAll('[data-tab]'));
+      const current = btns.findIndex(b => b === document.activeElement);
+      if (current === -1) return;
+      let next = -1;
+      if (e.key === 'ArrowRight') next = (current + 1) % btns.length;
+      else if (e.key === 'ArrowLeft') next = (current - 1 + btns.length) % btns.length;
+      else if (e.key === 'Home') next = 0;
+      else if (e.key === 'End') next = btns.length - 1;
+      if (next !== -1) {
+        e.preventDefault();
+        btns[next].focus();
+        switchTab(btns[next].dataset.tab);
+      }
+    });
+  }
+
+  let initialTab = DEFAULT_TAB;
+  try {
+    const stored = localStorage.getItem('cosmic_fishing_active_tab');
+    if (stored && TAB_IDS.includes(stored)) initialTab = stored;
+  } catch (_) { /* localStorage may throw */ }
+  switchTab(initialTab);
 
   Bus.on('ui:open-tab', function (payload) {
     if (payload && payload.tab) switchTab(payload.tab);

@@ -75,13 +75,14 @@ function buildItem(res, state) {
 
   const valueEl = document.createElement('span');
   valueEl.className = 'resource-value';
-  valueEl.textContent = format(res.getValue(state));
+  const initialValue = format(res.getValue(state));
+  valueEl.textContent = initialValue;
 
   root.appendChild(iconEl);
   root.appendChild(labelEl);
   root.appendChild(valueEl);
 
-  return { root, valueEl };
+  return { root, valueEl, prevValue: initialValue, pulseTimer: null };
 }
 
 function renderBar(state) {
@@ -109,8 +110,17 @@ function renderBar(state) {
       }
       if (!inserted) _barEl.appendChild(item.root);
     } else {
-      // Update value.
-      item.valueEl.textContent = format(res.getValue(state));
+      // Update value, pulse if changed.
+      const newValue = format(res.getValue(state));
+      if (newValue !== item.prevValue) {
+        item.valueEl.classList.add('value--pulse');
+        clearTimeout(item.pulseTimer);
+        item.pulseTimer = setTimeout(() => {
+          item.valueEl.classList.remove('value--pulse');
+        }, 350);
+        item.prevValue = newValue;
+      }
+      item.valueEl.textContent = newValue;
     }
 
     item.root.style.display = show ? '' : 'none';

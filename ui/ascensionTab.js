@@ -4,6 +4,7 @@
 import { format, formatTime } from './format.js';
 import { GameState, Bus } from '../engine/state.js';
 import { canAscend, executeAscension, getMemoryChoices } from '../engine/ascension.js';
+import { openCardDetail, bindCardGrid } from './cardDetail.js';
 import cosmicMemoriesData from '../data/cosmicMemories.js';
 
 // Build a lookup map for memory records (id → record) from the 8 canonical entries.
@@ -17,6 +18,45 @@ function resolveMemories(ids) {
   return (ids ?? []).map(id => MEMORY_MAP.get(id)).filter(Boolean);
 }
 
+function escHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+// resolveDetail — called by bindCardGrid for both memory and lore cards.
+function resolveDetail(id, kind) {
+  if (kind === 'memory') {
+    const m = MEMORY_MAP.get(id);
+    if (!m) return null;
+    return {
+      title: m.name,
+      chipHtml: '<span aria-hidden="true">🧠</span>',
+      bodyHtml:
+        `<p class="card-detail__effect">${escHtml(m.effectDescription)}</p>` +
+        `<p class="card-detail__lore">${escHtml(m.loreText)}</p>`,
+      rarityClass: '',
+    };
+  }
+  if (kind === 'lore') {
+    // id is the fragment index (0-based string)
+    const idx = parseInt(id, 10);
+    const lore = GameState.ascensionLoreUnlocked ?? [];
+    const fragment = lore[idx];
+    if (fragment == null) return null;
+    return {
+      title: `Lore Fragment ${idx + 1}`,
+      chipHtml: '<span aria-hidden="true">📜</span>',
+      bodyHtml: `<p class="card-detail__lore">${escHtml(fragment)}</p>`,
+      rarityClass: '',
+    };
+  }
+  return null;
+}
+
 // ---------------------------------------------------------------------------
 // Section renderers — return DOM nodes
 // ---------------------------------------------------------------------------
@@ -24,12 +64,14 @@ function resolveMemories(ids) {
 function renderCountSection(count) {
   const el = document.createElement('section');
   el.className = 'ascension-section ascension-count-section';
-  el.innerHTML = `
-    <h2 class="ascension-section-title">Ascension</h2>
-    <p class="ascension-count">
-      Times Ascended: <strong>${count}</strong>
-    </p>
-  `;
+
+  const tile = document.createElement('div');
+  tile.className = 'stat-tile';
+  tile.innerHTML =
+    `<span class="stat-number">${escHtml(String(count))}</span>` +
+    `<span class="stat-desc">Times Ascended</span>`;
+
+  el.appendChild(tile);
   return el;
 }
 
@@ -37,20 +79,29 @@ function renderRequirementsSection(unmet) {
   const el = document.createElement('section');
   el.className = 'ascension-section ascension-requirements-section';
 
+  const heading = document.createElement('h3');
+  heading.className = 'ascension-section-title';
+  heading.textContent = 'Requirements';
+  el.appendChild(heading);
+
+  const row = document.createElement('div');
+  row.className = 'ascension-req-chips';
+
   if (unmet.length === 0) {
-    el.innerHTML = `
-      <h3 class="ascension-section-title">Requirements</h3>
-      <p class="ascension-req ascension-req--met">All requirements met.</p>
-    `;
+    const chip = document.createElement('span');
+    chip.className = 'ascension-req-chip ascension-req-chip--met';
+    chip.textContent = '✓ All requirements met';
+    row.appendChild(chip);
   } else {
-    const items = unmet
-      .map(u => `<li class="ascension-req ascension-req--unmet">${u}</li>`)
-      .join('');
-    el.innerHTML = `
-      <h3 class="ascension-section-title">Requirements</h3>
-      <ul class="ascension-req-list">${items}</ul>
-    `;
+    for (const u of unmet) {
+      const chip = document.createElement('span');
+      chip.className = 'ascension-req-chip ascension-req-chip--unmet';
+      chip.textContent = u;
+      row.appendChild(chip);
+    }
   }
+
+  el.appendChild(row);
   return el;
 }
 
@@ -58,35 +109,53 @@ function renderMemoriesSection(ownedIds) {
   const el = document.createElement('section');
   el.className = 'ascension-section ascension-memories-section';
 
+  const heading = document.createElement('h3');
+  heading.className = 'ascension-section-title';
+  heading.textContent = 'Cosmic Memories';
+  el.appendChild(heading);
+
   const records = resolveMemories(ownedIds);
 
-  let body;
   if (records.length === 0) {
-    body = '<p class="ascension-empty">No Cosmic Memories yet.</p>';
-  } else {
-    // Count duplicates for display.
-    const counts = {};
-    for (const id of ownedIds) counts[id] = (counts[id] ?? 0) + 1;
-    const seen = new Set();
-    const cards = records
-      .filter(m => {
-        if (seen.has(m.id)) return false;
-        seen.add(m.id);
-        return true;
-      })
-      .map(m => {
-        const qty = counts[m.id] > 1 ? ` <span class="memory-qty">×${counts[m.id]}</span>` : '';
-        return `
-          <div class="memory-card" title="${m.loreText}" data-tip="${m.loreText}">
-            <span class="memory-name">${m.name}${qty}</span>
-            <span class="memory-effect">${m.effectDescription}</span>
-          </div>`;
-      })
-      .join('');
-    body = `<div class="memory-grid">${cards}</div>`;
+    const empty = document.createElement('p');
+    empty.className = 'ascension-empty';
+    empty.textContent = 'No Cosmic Memories yet.';
+    el.appendChild(empty);
+    return el;
   }
 
-  el.innerHTML = `<h3 class="ascension-section-title">Cosmic Memories</h3>${body}`;
+  // Count duplicates for display.
+  const counts = {};
+  for (const id of ownedIds) counts[id] = (counts[id] ?? 0) + 1;
+
+  const seen = new Set();
+  const grid = document.createElement('div');
+  grid.className = 'game-grid';
+
+  for (const m of records) {
+    if (seen.has(m.id)) continue;
+    seen.add(m.id);
+
+    const card = document.createElement('div');
+    card.className = 'game-card';
+    card.setAttribute('role', 'button');
+    card.setAttribute('tabindex', '0');
+    card.dataset.detailId = m.id;
+    card.dataset.detailKind = 'memory';
+
+    const qty = counts[m.id] > 1
+      ? `<span class="status-badge status-badge--owned">×${counts[m.id]}</span>`
+      : '';
+
+    card.innerHTML =
+      `<div class="game-card__chip" aria-hidden="true">🧠</div>` +
+      `<div class="game-card__name">${escHtml(m.name)}${qty}</div>` +
+      `<div class="game-card__stat">${escHtml(m.effectDescription)}</div>`;
+
+    grid.appendChild(card);
+  }
+
+  el.appendChild(grid);
   return el;
 }
 
@@ -94,17 +163,42 @@ function renderLoreSection(fragments) {
   const el = document.createElement('section');
   el.className = 'ascension-section ascension-lore-section';
 
-  let body;
+  const heading = document.createElement('h3');
+  heading.className = 'ascension-section-title';
+  heading.textContent = 'Lore Fragments';
+  el.appendChild(heading);
+
   if (!fragments || fragments.length === 0) {
-    body = '<p class="ascension-empty">No lore unlocked yet.</p>';
-  } else {
-    const items = fragments
-      .map((f, i) => `<li class="lore-fragment"><span class="lore-index">${i + 1}.</span> ${f}</li>`)
-      .join('');
-    body = `<ul class="lore-list">${items}</ul>`;
+    const empty = document.createElement('p');
+    empty.className = 'ascension-empty';
+    empty.textContent = 'No lore unlocked yet.';
+    el.appendChild(empty);
+    return el;
   }
 
-  el.innerHTML = `<h3 class="ascension-section-title">Lore Fragments</h3>${body}`;
+  const grid = document.createElement('div');
+  grid.className = 'game-grid';
+
+  fragments.forEach((f, i) => {
+    const card = document.createElement('div');
+    card.className = 'game-card';
+    card.setAttribute('role', 'button');
+    card.setAttribute('tabindex', '0');
+    card.dataset.detailId = String(i);
+    card.dataset.detailKind = 'lore';
+
+    // Truncate for stat line: show up to ~80 chars + ellipsis
+    const preview = f.length > 80 ? f.slice(0, 77) + '…' : f;
+
+    card.innerHTML =
+      `<div class="game-card__chip" aria-hidden="true">📜</div>` +
+      `<div class="game-card__name">Fragment ${i + 1}</div>` +
+      `<div class="game-card__stat">${escHtml(preview)}</div>`;
+
+    grid.appendChild(card);
+  });
+
+  el.appendChild(grid);
   return el;
 }
 
@@ -118,16 +212,33 @@ function renderStatsSection(state) {
 
   const el = document.createElement('section');
   el.className = 'ascension-section ascension-stats-section';
-  el.innerHTML = `
-    <h3 class="ascension-section-title">Lifetime Stats</h3>
-    <ul class="ascension-stats-list">
-      <li>Lifetime Gold Earned: <strong>${lifetimeGold}</strong></li>
-      <li>Lifetime Casts: <strong>${lifetimeCasts}</strong></li>
-      <li>Total Fish Caught: <strong>${totalFish}</strong></li>
-      <li>Total Casts (this run): <strong>${totalCasts}</strong></li>
-      <li>Playtime: <strong>${playtime}</strong></li>
-    </ul>
-  `;
+
+  const heading = document.createElement('h3');
+  heading.className = 'ascension-section-title';
+  heading.textContent = 'Lifetime Stats';
+  el.appendChild(heading);
+
+  const grid = document.createElement('div');
+  grid.className = 'ascension-stats-grid';
+
+  const stats = [
+    { icon: '💰', label: 'Lifetime Gold', value: lifetimeGold },
+    { icon: '🎯', label: 'Lifetime Casts', value: lifetimeCasts },
+    { icon: '🐟', label: 'Total Fish', value: totalFish },
+    { icon: '⟳', label: 'Total Casts', value: totalCasts },
+    { icon: '⏱️', label: 'Playtime', value: playtime },
+  ];
+
+  for (const { icon, label, value } of stats) {
+    const tile = document.createElement('div');
+    tile.className = 'stat-tile';
+    tile.innerHTML =
+      `<span class="stat-number">${icon} ${escHtml(value)}</span>` +
+      `<span class="stat-desc">${escHtml(label)}</span>`;
+    grid.appendChild(tile);
+  }
+
+  el.appendChild(grid);
   return el;
 }
 
@@ -295,6 +406,9 @@ export function initAscensionTab() {
     if (!btn || btn.disabled) return;
     handleAscendClick(container);
   });
+
+  // Bind card-grid detail handler once (idempotent via dataset flag).
+  bindCardGrid(container, resolveDetail);
 
   // Re-render on ascension lifecycle events.
   const rerender = () => renderTab(container);
