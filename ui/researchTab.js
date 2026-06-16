@@ -10,7 +10,7 @@ import RESEARCH from '../data/research.js';
 // ── Constants ──────────────────────────────────────────────────────────────────
 
 const NODE_W  = 120; // px — node card width
-const NODE_H  = 60;  // px — node card height
+const NODE_H  = 96;  // px — node card height (tall enough for header+badge+cost+prereqs+buy)
 const CELL_W  = 160; // px — grid column stride
 const CELL_H  = 100; // px — grid row stride
 const PAD_X   = 20;  // px — left/top padding inside SVG/canvas
@@ -411,5 +411,14 @@ export function initResearchTab() {
     const justDone = current.find(id => !_prevCompleted.includes(id)) ?? null;
     _prevCompleted = current.slice();
     patch(justDone);
+  });
+
+  // Re-sync every time the research tab is shown (catches save-load and any
+  // state change that didn't fire resource:change / research:complete).
+  // save:complete is NOT subscribed here because first paint already runs
+  // post-load (main.js boot() calls load() then initResearchTab()), and the
+  // tab:show subscription covers every subsequent visit to the tab.
+  Bus.on('tab:show', (p) => {
+    if (p && p.id === 'research') patch(null);
   });
 }

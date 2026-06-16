@@ -52,6 +52,7 @@ function switchTab(name) {
   try {
     localStorage.setItem('cosmic_fishing_active_tab', id);
   } catch (_) { /* localStorage may throw in some contexts */ }
+  Bus.emit('tab:show', { id });
 }
 
 // ─── Welcome-back overlay (FR-112, C6) ────────────────────────────────────────
