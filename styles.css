@@ -105,6 +105,46 @@ a:hover {
   --anim-mid:        400ms;
   --anim-slow:       800ms;
   --anim-xslow:      1.5s;
+
+  /* --- Stage / scene tokens (defaults = pond; overridden per realm) --- */
+  --stage-sky-top:         #2a4a1e;
+  --stage-sky-bottom:      #3d6b2a;
+  --stage-sky-glow:        rgba(160, 220, 80, 0.25);
+  --stage-horizon:         rgba(180, 230, 100, 0.6);
+  --stage-water-surface:   #2a6640;
+  --stage-water-shimmer:   rgba(95, 200, 120, 0.55);
+  --stage-water-top:       #1e5030;
+  --stage-water-deep:      #0e2a18;
+  --stage-godray:          rgba(160, 220, 80, 0.08);
+  --stage-particle:        rgba(220, 240, 120, 0.6);
+
+  /* --- Realm depth: UNITLESS 0..1, read by JS via parseFloat(getComputedStyle) --- */
+  --realm-depth: 0.35;
+
+  /* --- Rarity glow tokens --- */
+  --rarity-common-glow:     transparent;
+  --rarity-uncommon-glow:   rgba(95, 216, 138, 0.35);
+  --rarity-rare-glow:       rgba(79, 163, 224, 0.45);
+  --rarity-epic-glow:       rgba(192, 96, 240, 0.5);
+  --rarity-legendary-glow:  rgba(255, 215, 0, 0.55);
+  --rarity-mythic-glow:     rgba(255, 96, 48, 0.6);
+  --rarity-impossible-glow: rgba(255, 255, 255, 0.7);
+
+  /* --- Scene timing (capped, independent of engine castTime) --- */
+  --cast-swing-dur:  500ms;
+  --reel-in-dur:     350ms;
+  --breach-dur:      900ms;
+  --splash-dur:      600ms;
+
+  /* --- HUD / shell --- */
+  --hud-blur:        8px;
+  --font-display:    'Trebuchet MS', 'Segoe UI', ui-rounded, system-ui, sans-serif;
+  --glow-strong:     0 0 24px var(--accent-glow);
+
+  /* --- Layout sizing --- */
+  --content-max:     1200px;
+  --stage-h:         clamp(420px, 48vh, 560px);
+  --gap-lg:          calc(var(--gap) * 1.5);
 }
 
 /* =============================================================================
@@ -129,6 +169,18 @@ body.realm-pond {
   --water-shimmer:   #4a9f66;
   --sky:             #162416;
   --vignette:        rgba(0, 10, 0, 0.0);
+  /* Stage tokens */
+  --realm-depth:          0.35;
+  --stage-sky-top:        #2a4a1e;
+  --stage-sky-bottom:     #3d6b2a;
+  --stage-sky-glow:       rgba(160, 220, 80, 0.25);
+  --stage-horizon:        rgba(180, 230, 100, 0.6);
+  --stage-water-surface:  #2a6640;
+  --stage-water-shimmer:  rgba(95, 200, 120, 0.55);
+  --stage-water-top:      #1e5030;
+  --stage-water-deep:     #0e2a18;
+  --stage-godray:         rgba(160, 220, 80, 0.08);
+  --stage-particle:       rgba(220, 240, 120, 0.6);
 }
 
 /* --- Ocean (deep teal/cyan) --- */
@@ -149,6 +201,18 @@ body.realm-ocean {
   --water-shimmer:   #1a7090;
   --sky:             #061220;
   --vignette:        rgba(0, 5, 20, 0.0);
+  /* Stage tokens */
+  --realm-depth:          0.55;
+  --stage-sky-top:        #0a3a5a;
+  --stage-sky-bottom:     #1a6080;
+  --stage-sky-glow:       rgba(48, 200, 232, 0.3);
+  --stage-horizon:        rgba(80, 200, 240, 0.7);
+  --stage-water-surface:  #0d4060;
+  --stage-water-shimmer:  rgba(48, 200, 232, 0.5);
+  --stage-water-top:      #0a3050;
+  --stage-water-deep:     #040e28;
+  --stage-godray:         rgba(48, 200, 232, 0.07);
+  --stage-particle:       rgba(160, 230, 255, 0.55);
 }
 
 /* --- Abyss (deep navy/indigo, oppressive dark) --- */
@@ -169,6 +233,18 @@ body.realm-abyss {
   --water-shimmer:   #181e3c;
   --sky:             #020408;
   --vignette:        rgba(0, 0, 10, 0.3);
+  /* Stage tokens */
+  --realm-depth:          0.80;
+  --stage-sky-top:        #020408;
+  --stage-sky-bottom:     #08101e;
+  --stage-sky-glow:       rgba(40, 60, 160, 0.2);
+  --stage-horizon:        rgba(60, 80, 200, 0.4);
+  --stage-water-surface:  #0a0e24;
+  --stage-water-shimmer:  rgba(60, 80, 180, 0.3);
+  --stage-water-top:      #080c1e;
+  --stage-water-deep:     #020408;
+  --stage-godray:         rgba(40, 60, 200, 0.05);
+  --stage-particle:       rgba(80, 160, 255, 0.5);
 }
 
 /* --- Dream Sea (surreal: soft lavender + coral + glitch) --- */
@@ -189,6 +265,18 @@ body.realm-dream_sea {
   --water-shimmer:   #5a2070;
   --sky:             #0e0818;
   --vignette:        rgba(30, 0, 40, 0.2);
+  /* Stage tokens */
+  --realm-depth:          0.60;
+  --stage-sky-top:        #2a1040;
+  --stage-sky-bottom:     #5a2880;
+  --stage-sky-glow:       rgba(240, 96, 192, 0.3);
+  --stage-horizon:        rgba(220, 120, 255, 0.65);
+  --stage-water-surface:  #3a1458;
+  --stage-water-shimmer:  rgba(240, 96, 192, 0.45);
+  --stage-water-top:      #2a1040;
+  --stage-water-deep:     #0e0618;
+  --stage-godray:         rgba(200, 80, 240, 0.07);
+  --stage-particle:       rgba(255, 160, 240, 0.6);
 }
 
 /* --- Time Ocean (amber/gold temporal distortion) --- */
@@ -209,6 +297,18 @@ body.realm-time_ocean {
   --water-shimmer:   #604800;
   --sky:             #100c00;
   --vignette:        rgba(30, 15, 0, 0.1);
+  /* Stage tokens */
+  --realm-depth:          0.65;
+  --stage-sky-top:        #2e1a00;
+  --stage-sky-bottom:     #5a3a00;
+  --stage-sky-glow:       rgba(255, 192, 48, 0.3);
+  --stage-horizon:        rgba(255, 200, 60, 0.65);
+  --stage-water-surface:  #3a2800;
+  --stage-water-shimmer:  rgba(255, 192, 48, 0.45);
+  --stage-water-top:      #2a1e00;
+  --stage-water-deep:     #100a00;
+  --stage-godray:         rgba(255, 180, 30, 0.08);
+  --stage-particle:       rgba(255, 210, 80, 0.65);
 }
 
 /* --- Cosmic Void (deep space: near-black + electric violet + white stars) --- */
@@ -229,6 +329,18 @@ body.realm-cosmic_void {
   --water-shimmer:   #14083a;
   --sky:             #020108;
   --vignette:        rgba(5, 0, 20, 0.4);
+  /* Stage tokens */
+  --realm-depth:          0.90;
+  --stage-sky-top:        #02010a;
+  --stage-sky-bottom:     #0c0620;
+  --stage-sky-glow:       rgba(144, 96, 255, 0.25);
+  --stage-horizon:        rgba(160, 100, 255, 0.5);
+  --stage-water-surface:  #08041a;
+  --stage-water-shimmer:  rgba(144, 96, 255, 0.35);
+  --stage-water-top:      #060314;
+  --stage-water-deep:     #020108;
+  --stage-godray:         rgba(120, 80, 255, 0.06);
+  --stage-particle:       rgba(200, 170, 255, 0.6);
 }
 
 /* =============================================================================
@@ -306,9 +418,11 @@ main {
     "tab-panels tab-panels";
   gap: var(--gap);
   padding: var(--gap);
-  max-width: 1400px;
+  padding-inline: var(--gap);
+  max-width: var(--content-max);
   width: 100%;
-  margin: 0 auto;
+  margin-inline: auto;
+  align-items: start;
 }
 
 #cast-area {
@@ -318,10 +432,11 @@ main {
   border-radius: var(--radius-lg);
   padding: var(--gap);
   box-shadow: var(--shadow-md);
-  min-height: 220px;
+  min-height: 0;
   display: flex;
   flex-direction: column;
   gap: var(--gap-sm);
+  overflow: hidden;
 }
 
 #realm-panel {
@@ -350,6 +465,7 @@ main {
   padding: 4px;
   overflow-x: auto;
   scrollbar-width: none;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.35), var(--shadow-sm);
 }
 
 #tab-nav::-webkit-scrollbar {
@@ -367,23 +483,50 @@ main {
   color: var(--text-muted);
   background: transparent;
   border: 1px solid transparent;
-  transition: background var(--anim-fast), color var(--anim-fast), border-color var(--anim-fast);
+  transition: background var(--anim-fast), color var(--anim-fast), border-color var(--anim-fast), box-shadow var(--anim-fast);
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+  cursor: pointer;
 }
 
-#tab-nav button:hover {
+#tab-nav button:hover:not(.active):not([aria-selected="true"]) {
   background: var(--bg-card);
   color: var(--text);
+  border-color: var(--border);
 }
 
 #tab-nav button.active,
 #tab-nav button[aria-selected="true"] {
   background: var(--bg-card);
   color: var(--accent);
-  border-color: var(--border-light);
-  box-shadow: 0 0 0 1px var(--accent-glow);
+  border-color: var(--accent-dim);
+  box-shadow:
+    0 0 0 1px var(--accent-glow),
+    0 0 8px var(--accent-glow),
+    inset 0 1px 0 var(--accent-glow);
+  font-weight: 600;
+  position: relative;
+}
+
+/* Accent underline on active tab */
+#tab-nav button.active::after,
+#tab-nav button[aria-selected="true"]::after {
+  content: '';
+  position: absolute;
+  bottom: 3px;
+  left: 20%;
+  right: 20%;
+  height: 2px;
+  border-radius: 1px;
+  background: var(--accent);
+  box-shadow: 0 0 6px var(--accent-glow);
+}
+
+/* Tab focus ring — realm-accent colored, crisp (no glow per glow economy) */
+#tab-nav button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 /* Tab panels */
@@ -394,12 +537,21 @@ main {
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   padding: var(--gap);
-  animation: tab-fade-in var(--anim-fast) ease-out;
 }
 
 .tab-panel.active,
 .tab-panel[aria-hidden="false"] {
   display: block;
+  animation: tab-fade-in 150ms ease-out both;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+/* Reduce-animations: no tab motion */
+body.reduce-animations .tab-panel,
+body.reduce-animations .tab-panel.active,
+body.reduce-animations .tab-panel[aria-hidden="false"] {
+  animation: none;
 }
 
 /* Tab panels occupy the tab-panels grid area */
@@ -570,6 +722,11 @@ main {
   animation: catch-slide-in var(--anim-mid) cubic-bezier(0.175, 0.885, 0.32, 1.275);
   position: relative;
   overflow: hidden;
+  /* Layout fix: flex column so scroll region + footer fill available height */
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+  min-height: 0;
 }
 
 .catch-result.new-discovery {
@@ -602,6 +759,306 @@ main {
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }
+
+/* =============================================================================
+   CATCH RESULT — TROPHY PLAQUE (BEM enrichment)
+   Augments the existing .catch-result base rules.
+   ============================================================================= */
+
+/* Per-tier rarity tokens local to the card */
+.catch-result--common      { --r-color: var(--rarity-common-color);     --r-glow: var(--rarity-common-glow);     }
+.catch-result--uncommon    { --r-color: var(--rarity-uncommon-color);   --r-glow: var(--rarity-uncommon-glow);   }
+.catch-result--rare        { --r-color: var(--rarity-rare-color);       --r-glow: var(--rarity-rare-glow);       }
+.catch-result--epic        { --r-color: var(--rarity-epic-color);       --r-glow: var(--rarity-epic-glow);       }
+.catch-result--legendary   { --r-color: var(--rarity-legendary-color);  --r-glow: var(--rarity-legendary-glow);  }
+.catch-result--mythic      { --r-color: var(--rarity-mythic-color);     --r-glow: var(--rarity-mythic-glow);     }
+.catch-result--impossible  { --r-color: var(--rarity-impossible-color); --r-glow: var(--rarity-impossible-glow); }
+
+/* Refine base card with rarity-themed bg + glow */
+.catch-result[class*="catch-result--"] {
+  --r-color: var(--rarity-common-color);
+  --r-glow: transparent;
+
+  border-radius: 18px;
+  padding: 18px;
+  border: 1px solid color-mix(in srgb, var(--r-color) 45%, var(--border));
+  background:
+    radial-gradient(ellipse 70% 40% at 50% 0%,
+      color-mix(in srgb, var(--r-color) 12%, transparent) 0%,
+      transparent 100%),
+    linear-gradient(
+      160deg,
+      color-mix(in srgb, var(--accent) 6%, var(--bg-card)) 0%,
+      var(--bg-card) 100%
+    );
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--r-color) 30%, transparent),
+    0 4px 20px color-mix(in srgb, var(--r-color) 20%, rgba(0,0,0,0.5)),
+    var(--r-glow, transparent) 0 0 0 0;
+}
+
+/* ── Artwork medallion ───────────────────────────────────────────────────── */
+.catch-artwork {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 58px;
+  margin: 0 auto 12px;
+  background: radial-gradient(
+    circle at 40% 35%,
+    color-mix(in srgb, var(--r-color, var(--accent)) 22%, var(--bg-card)) 0%,
+    var(--bg-card) 100%
+  );
+  border: 2px solid color-mix(in srgb, var(--r-color, var(--accent)) 55%, transparent);
+  box-shadow:
+    0 0 14px color-mix(in srgb, var(--r-color, var(--accent)) 40%, transparent),
+    inset 0 0 10px color-mix(in srgb, var(--r-color, var(--accent)) 15%, transparent);
+  text-shadow: 0 0 12px color-mix(in srgb, var(--r-color, var(--accent)) 70%, transparent);
+  position: relative;
+  isolation: isolate;
+}
+
+/* Rotating halo ring (rare+) via ::before conic-gradient */
+.catch-artwork::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0;
+}
+
+/* Enable halo from rare upward */
+.catch-result--rare    .catch-artwork::before,
+.catch-result--epic    .catch-artwork::before,
+.catch-result--legendary .catch-artwork::before,
+.catch-result--mythic  .catch-artwork::before,
+.catch-result--impossible .catch-artwork::before {
+  opacity: 1;
+  background: conic-gradient(
+    from 0deg,
+    color-mix(in srgb, var(--r-color) 80%, transparent) 0deg,
+    transparent 60deg,
+    color-mix(in srgb, var(--r-color) 60%, transparent) 180deg,
+    transparent 240deg,
+    color-mix(in srgb, var(--r-color) 80%, transparent) 360deg
+  );
+  animation: catchHalo 6s linear infinite;
+}
+
+/* Brighter dual-tone for mythic */
+.catch-result--mythic .catch-artwork::before {
+  background: conic-gradient(
+    from 0deg,
+    var(--r-color) 0deg,
+    rgba(255,200,80,0.5) 60deg,
+    transparent 90deg,
+    var(--r-color) 180deg,
+    rgba(255,100,30,0.4) 240deg,
+    transparent 270deg,
+    var(--r-color) 360deg
+  );
+  animation: catchHalo 4s linear infinite;
+}
+
+/* Impossible: hue-rotating + slight scale jitter */
+.catch-result--impossible .catch-artwork::before {
+  background: conic-gradient(
+    from 0deg,
+    #fff 0deg,
+    #adf 60deg,
+    #faf 120deg,
+    #fff 180deg,
+    #ffd 240deg,
+    #aff 300deg,
+    #fff 360deg
+  );
+  animation: catchHalo 3s linear infinite, catchImpossibleJitter 0.5s steps(2) infinite;
+}
+
+/* ── Name row ────────────────────────────────────────────────────────────── */
+.catch-name-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.catch-name {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: color-mix(in srgb, var(--r-color, var(--accent)) 85%, #fff);
+  line-height: 1.2;
+}
+
+/* ── Stats row ───────────────────────────────────────────────────────────── */
+.catch-stats-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.catch-size,
+.catch-value {
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 3px 10px;
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--r-color, var(--accent)) 8%, var(--bg-card));
+  border: 1px solid color-mix(in srgb, var(--r-color, var(--accent)) 30%, var(--border));
+  color: color-mix(in srgb, var(--r-color, var(--accent)) 70%, var(--text));
+}
+
+/* ── Trait callout ───────────────────────────────────────────────────────── */
+.catch-trait {
+  font-size: 0.8rem;
+  padding: 5px 10px 5px 13px;
+  border-left: 3px solid color-mix(in srgb, var(--r-color, var(--accent)) 70%, transparent);
+  background: color-mix(in srgb, var(--r-color, var(--accent)) 6%, transparent);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  margin-bottom: 8px;
+  color: var(--text);
+}
+
+/* ── New discovery label ─────────────────────────────────────────────────── */
+.catch-new-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--rarity-legendary-color);
+  text-shadow: 0 0 6px var(--rarity-legendary-glow);
+  margin-bottom: 6px;
+}
+
+/* ── Lore ────────────────────────────────────────────────────────────────── */
+.catch-lore {
+  font-style: italic;
+  font-size: 0.76rem;
+  color: var(--text-muted);
+  text-align: center;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+/* ── Scrollable content region (artwork → lore) ─────────────────────────── */
+.catch-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  /* Thin scrollbar on WebKit — non-intrusive */
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--r-color, var(--accent)) 35%, transparent) transparent;
+}
+
+.catch-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+
+.catch-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.catch-scroll::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--r-color, var(--accent)) 35%, transparent);
+  border-radius: 999px;
+}
+
+/* ── Button row (pinned footer) ──────────────────────────────────────────── */
+.catch-btn-row {
+  flex: 0 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 10px;
+  padding-top: 8px;
+  border-top: 1px solid color-mix(in srgb, var(--r-color, var(--accent)) 20%, var(--border));
+}
+
+.catch-action-btn {
+  flex: 1;
+  min-width: 70px;
+  min-height: 44px;
+  padding: 7px 12px;
+  border-radius: var(--radius-md);
+  border: 1px solid color-mix(in srgb, var(--r-color, var(--accent)) 50%, var(--border));
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--r-color, var(--accent)) 18%, var(--bg-surface)),
+    color-mix(in srgb, var(--r-color, var(--accent)) 28%, var(--bg-card))
+  );
+  color: color-mix(in srgb, var(--r-color, var(--accent)) 80%, #fff);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    filter     var(--anim-fast),
+    box-shadow var(--anim-fast);
+  text-align: center;
+}
+
+.catch-action-btn:hover {
+  filter: brightness(1.15);
+  box-shadow: 0 2px 10px color-mix(in srgb, var(--r-color, var(--accent)) 30%, transparent);
+}
+
+.catch-action-btn:active {
+  filter: brightness(0.9);
+}
+
+.catch-action-btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+  pointer-events: none;
+}
+
+/* ── Dismiss countdown bar (pinned footer) ───────────────────────────────── */
+.catch-dismiss-bar {
+  flex: 0 0 auto;
+  height: 3px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--r-color, var(--accent)) 15%, var(--bg-card));
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+.catch-dismiss-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--r-color, var(--accent)) 60%, var(--border)),
+    var(--r-color, var(--accent))
+  );
+  transition: width 0.1s linear;
+}
+
+/* ── Keyframes ───────────────────────────────────────────────────────────── */
+@keyframes catchHalo {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes catchImpossibleJitter {
+  0%  { transform: rotate(0deg)   scale(1); }
+  50% { transform: rotate(180deg) scale(1.01); }
+}
+
+/* =============================================================================
+   END CATCH RESULT TROPHY PLAQUE
+   ============================================================================= */
 
 /* =============================================================================
    8. RARITY TREATMENTS (FR-013)
@@ -1206,30 +1663,482 @@ body.event-birth-of-a-star #event-banner {
 .vs-value      { color: var(--rarity-mythic-color); font-weight: 700; }
 .tc-value      { color: var(--rarity-uncommon-color); font-weight: 700; }
 
-/* Realm card */
+/* =============================================================================
+   REALM CARDS — BEM redesign (replaces legacy .realm-card flat rules)
+   Per-realm local custom props drive all themed colours.
+   ============================================================================= */
+
+/* ── Per-realm colour tokens ─────────────────────────────────────────────── */
+.realm-card--pond       { --card-accent:#5fd88a; --card-water:#2e7d52; --card-sky:#bff0cf; }
+.realm-card--ocean      { --card-accent:#30c8e8; --card-water:#12618a; --card-sky:#bdeeff; }
+.realm-card--abyss      { --card-accent:#5060c8; --card-water:#141a3a; --card-sky:#2a3170; }
+.realm-card--dream_sea  { --card-accent:#f060c0; --card-water:#6e2a8a; --card-sky:#f3cdf0; }
+.realm-card--time_ocean { --card-accent:#ffc030; --card-water:#8a5a10; --card-sky:#ffe9b0; }
+.realm-card--cosmic_void{ --card-accent:#9060ff; --card-water:#2a1660; --card-sky:#c9b0ff; }
+
+/* ── Base card ───────────────────────────────────────────────────────────── */
 .realm-card {
-  background: var(--bg-card);
+  --card-accent: var(--accent);
+  --card-water:  var(--water);
+  --card-sky:    var(--sky);
+
+  position: relative;
+  border-radius: 16px;
+  padding: 16px;
+  overflow: hidden;
   border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  padding: var(--gap-sm) var(--gap);
+  background: linear-gradient(
+    160deg,
+    color-mix(in srgb, var(--card-sky)  18%, var(--bg-card)) 0%,
+    var(--bg-card) 45%,
+    color-mix(in srgb, var(--card-water) 22%, var(--bg-card)) 100%
+  );
+  box-shadow:
+    0 2px 12px rgba(0,0,0,0.45),
+    inset 0 1px 0 rgba(255,255,255,0.04);
   margin-bottom: var(--gap-sm);
   cursor: pointer;
-  transition: border-color var(--anim-fast), box-shadow var(--anim-fast);
+  transition:
+    transform      var(--anim-mid) ease,
+    box-shadow     var(--anim-mid) ease,
+    border-color   var(--anim-fast) ease;
 }
 
-.realm-card:hover {
-  border-color: var(--accent-dim);
-  box-shadow: 0 0 10px var(--accent-glow);
+/* ── Atmospheric depth layer ─────────────────────────────────────────────── */
+.realm-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: radial-gradient(
+    ellipse 80% 60% at 50% 110%,
+    color-mix(in srgb, var(--card-water) calc(var(--realm-depth, 0.35) * 60%), transparent) 0%,
+    transparent 70%
+  );
+  z-index: 0;
 }
 
-.realm-card.active {
-  border-color: var(--accent);
-  box-shadow: 0 0 16px var(--accent-glow);
+/* ── Per-realm ::before flourishes ─────────────────────────────────────────
+   These are intentionally low-alpha decoration layers, not interactive.      */
+
+/* Pond — horizontal ripple bands */
+.realm-card--pond::before {
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 110%,
+      color-mix(in srgb, #2e7d52 20%, transparent) 0%, transparent 70%),
+    repeating-linear-gradient(
+      180deg,
+      transparent 0px,
+      transparent 14px,
+      rgba(95,216,138,0.04) 14px,
+      rgba(95,216,138,0.04) 16px
+    );
 }
 
-.realm-card.locked {
-  opacity: 0.5;
+/* Ocean — diagonal caustics */
+.realm-card--ocean::before {
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 110%,
+      color-mix(in srgb, #12618a 28%, transparent) 0%, transparent 70%),
+    repeating-linear-gradient(
+      60deg,
+      transparent 0px,
+      transparent 18px,
+      rgba(48,200,232,0.05) 18px,
+      rgba(48,200,232,0.05) 20px
+    );
+}
+
+/* Abyss — scattered bioluminescent dots via radial pseudo-dots */
+.realm-card--abyss::before {
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 110%,
+      color-mix(in srgb, #141a3a 40%, transparent) 0%, transparent 70%),
+    radial-gradient(circle 2px at 25% 30%, rgba(80,96,200,0.25) 0%, transparent 100%),
+    radial-gradient(circle 1px at 72% 55%, rgba(80,96,200,0.2) 0%, transparent 100%),
+    radial-gradient(circle 2px at 50% 20%, rgba(80,96,200,0.15) 0%, transparent 100%),
+    radial-gradient(circle 1px at 85% 35%, rgba(80,96,200,0.2) 0%, transparent 100%),
+    radial-gradient(circle 2px at 15% 70%, rgba(80,96,200,0.18) 0%, transparent 100%);
+}
+
+/* Dream Sea — soft conic haze (animated via CSS) */
+.realm-card--dream_sea::before {
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 110%,
+      color-mix(in srgb, #6e2a8a 30%, transparent) 0%, transparent 70%),
+    conic-gradient(
+      from 0deg at 70% 40%,
+      rgba(240,96,192,0.07) 0deg,
+      rgba(160,80,240,0.04) 90deg,
+      rgba(240,96,192,0.03) 180deg,
+      rgba(200,60,160,0.06) 270deg,
+      rgba(240,96,192,0.07) 360deg
+    );
+  animation: realmDreamHaze 8s linear infinite;
+}
+
+/* Time Ocean — concentric ring */
+.realm-card--time_ocean::before {
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 110%,
+      color-mix(in srgb, #8a5a10 28%, transparent) 0%, transparent 70%),
+    radial-gradient(circle 45% at 50% 50%, transparent 39%, rgba(255,192,48,0.06) 40%, transparent 41%),
+    radial-gradient(circle 45% at 50% 50%, transparent 54%, rgba(255,192,48,0.04) 55%, transparent 56%);
+}
+
+/* Cosmic Void — pinprick starfield */
+.realm-card--cosmic_void::before {
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 110%,
+      color-mix(in srgb, #2a1660 35%, transparent) 0%, transparent 70%),
+    radial-gradient(circle 1px at 18% 22%, rgba(255,255,255,0.35) 0%, transparent 100%),
+    radial-gradient(circle 1px at 67% 15%, rgba(200,180,255,0.3) 0%, transparent 100%),
+    radial-gradient(circle 1px at 83% 48%, rgba(255,255,255,0.25) 0%, transparent 100%),
+    radial-gradient(circle 1px at 38% 68%, rgba(180,160,255,0.3) 0%, transparent 100%),
+    radial-gradient(circle 1px at 92% 72%, rgba(255,255,255,0.2) 0%, transparent 100%),
+    radial-gradient(circle 1px at 55% 35%, rgba(200,180,255,0.28) 0%, transparent 100%),
+    radial-gradient(circle 1px at 10% 85%, rgba(255,255,255,0.22) 0%, transparent 100%);
+}
+
+/* ── Content stacking (above ::before layer) ─────────────────────────────── */
+.realm-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Header ──────────────────────────────────────────────────────────────── */
+.realm-card__header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+/* ── Icon medallion ──────────────────────────────────────────────────────── */
+.realm-card__icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  flex-shrink: 0;
+  background: radial-gradient(
+    circle at 40% 35%,
+    color-mix(in srgb, var(--card-accent) 30%, var(--bg-card)) 0%,
+    var(--bg-card) 100%
+  );
+  border: 1px solid color-mix(in srgb, var(--card-accent) 55%, transparent);
+  box-shadow:
+    0 0 10px color-mix(in srgb, var(--card-accent) 40%, transparent),
+    inset 0 0 6px color-mix(in srgb, var(--card-accent) 15%, transparent);
+  text-shadow: 0 0 8px color-mix(in srgb, var(--card-accent) 70%, transparent);
+}
+
+/* ── Name ────────────────────────────────────────────────────────────────── */
+.realm-card__name {
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: color-mix(in srgb, var(--card-accent) 75%, #fff);
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── Badge (top-right pill) ──────────────────────────────────────────────── */
+.realm-card__badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  padding: 2px 9px;
+  border-radius: 999px;
+  line-height: 1.5;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.realm-card__badge--active {
+  background: var(--card-accent);
+  color: color-mix(in srgb, var(--card-accent) 10%, #000);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--card-accent) 60%, transparent);
+  border: 1px solid color-mix(in srgb, var(--card-accent) 80%, #fff);
+}
+
+.realm-card__badge--unlocked {
+  background: transparent;
+  color: var(--card-accent);
+  border: 1px solid color-mix(in srgb, var(--card-accent) 65%, transparent);
+}
+
+.realm-card__badge--locked,
+.realm-card__badge--teaser {
+  background: rgba(0,0,0,0.3);
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+}
+
+/* ── Description ─────────────────────────────────────────────────────────── */
+.realm-card__description {
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: color-mix(in srgb, var(--text) 85%, #fff);
+  margin-bottom: 8px;
+}
+
+/* ── Feature chip ────────────────────────────────────────────────────────── */
+.realm-card__feature {
+  display: inline-block;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 2px 10px;
+  border-radius: 999px;
+  color: var(--card-accent);
+  background: color-mix(in srgb, var(--card-accent) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--card-accent) 40%, transparent);
+  margin-bottom: 10px;
+}
+
+/* ── Unmet requirements ──────────────────────────────────────────────────── */
+.realm-card__unmet {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.realm-card__unmet-item {
+  font-size: 0.76rem;
+  color: var(--text-muted);
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  border: 1px solid color-mix(in srgb, var(--card-accent) 30%, var(--border));
+  background: rgba(0,0,0,0.25);
+}
+
+.realm-card__unmet-item::before {
+  content: '🔒 ';
+}
+
+/* ── Completion bar ──────────────────────────────────────────────────────── */
+.realm-card__completion {
+  margin-bottom: 8px;
+}
+
+.realm-card__completion-label {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-bottom: 3px;
+}
+
+.realm-card__completion-bar {
+  height: 7px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--card-water) 30%, var(--bg-card));
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--card-accent) 20%, var(--border));
+}
+
+.realm-card__completion-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--card-accent) 60%, var(--card-water)),
+    var(--card-accent)
+  );
+  box-shadow: 0 0 4px color-mix(in srgb, var(--card-accent) 50%, transparent);
+  transition: width 0.5s ease;
+}
+
+/* ── Instability warning ─────────────────────────────────────────────────── */
+.realm-card__instability {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #ffc030;
+  background: rgba(255,150,20,0.12);
+  border: 1px solid rgba(255,150,20,0.35);
+  border-radius: 999px;
+  padding: 2px 8px;
+  margin-bottom: 8px;
+}
+
+.realm-card__instability-icon {
+  font-style: normal;
+}
+
+/* ── Sail button ─────────────────────────────────────────────────────────── */
+.realm-card__sail-btn {
+  display: block;
+  width: 100%;
+  padding: 9px 16px;
+  border-radius: var(--radius-md);
+  border: none;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--card-accent) 85%, var(--card-water)),
+    var(--card-accent)
+  );
+  color: color-mix(in srgb, var(--card-accent) 10%, #000);
+  box-shadow:
+    0 2px 10px color-mix(in srgb, var(--card-accent) 40%, transparent),
+    inset 0 1px 0 rgba(255,255,255,0.15);
+  transition:
+    filter       var(--anim-fast),
+    transform    var(--anim-fast),
+    box-shadow   var(--anim-fast);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-top: 10px;
+}
+
+.realm-card__sail-btn:hover {
+  filter: brightness(1.12);
+  box-shadow:
+    0 4px 18px color-mix(in srgb, var(--card-accent) 55%, transparent),
+    inset 0 1px 0 rgba(255,255,255,0.2);
+}
+
+.realm-card__sail-btn:active {
+  transform: translateY(1px);
+  filter: brightness(0.95);
+}
+
+.realm-card__sail-btn--disabled,
+.realm-card__sail-btn[disabled] {
+  background: var(--bg-surface);
+  color: var(--text-dim);
+  box-shadow: none;
+  cursor: not-allowed;
+  filter: none;
+}
+
+/* ── Teaser text ─────────────────────────────────────────────────────────── */
+.realm-card__teaser-text {
+  font-size: 0.8rem;
+  font-style: italic;
+  color: var(--text-muted);
+  line-height: 1.45;
+  margin-bottom: 8px;
+}
+
+/* ── State: ACTIVE — glowing ring + pulse ::after ────────────────────────── */
+.realm-card--active {
+  border-color: var(--card-accent);
+  box-shadow:
+    0 0 0 2px color-mix(in srgb, var(--card-accent) 70%, transparent),
+    0 4px 20px rgba(0,0,0,0.5),
+    0 0 24px color-mix(in srgb, var(--card-accent) 30%, transparent);
+  transform: translateY(-1px);
+}
+
+.realm-card--active::after {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 18px;
+  border: 2px solid color-mix(in srgb, var(--card-accent) 55%, transparent);
+  pointer-events: none;
+  z-index: 0;
+  animation: realmPulse 3.2s ease-in-out infinite;
+}
+
+/* ── State: UNLOCKED hover ───────────────────────────────────────────────── */
+.realm-card--unlocked:hover,
+.realm-card--active:hover {
+  transform: translateY(-3px);
+  border-color: color-mix(in srgb, var(--card-accent) 80%, transparent);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--card-accent) 50%, transparent),
+    0 6px 24px rgba(0,0,0,0.5),
+    0 0 18px color-mix(in srgb, var(--card-accent) 25%, transparent);
+}
+
+/* ── State: LOCKED — desaturated ────────────────────────────────────────── */
+.realm-card--locked {
+  filter: saturate(0.45) brightness(0.8);
+  opacity: 0.85;
   cursor: default;
+}
+
+.realm-card--locked .realm-card__description {
+  color: var(--text-muted);
+}
+
+/* ── State: TEASER — frosted/redacted ───────────────────────────────────── */
+.realm-card--teaser {
+  background: linear-gradient(
+    160deg,
+    color-mix(in srgb, var(--card-sky) 8%, var(--bg-card)) 0%,
+    var(--bg-card) 100%
+  );
+  cursor: default;
+}
+
+.realm-card--teaser .realm-card__name {
+  color: transparent;
+  text-shadow: 0 0 8px color-mix(in srgb, var(--card-accent) 50%, rgba(255,255,255,0.4));
+  user-select: none;
+}
+
+.realm-card--teaser .realm-card__icon {
+  filter: blur(3px);
+}
+
+.realm-card--teaser::before {
+  background:
+    repeating-linear-gradient(
+      45deg,
+      transparent 0px,
+      transparent 8px,
+      rgba(255,255,255,0.025) 8px,
+      rgba(255,255,255,0.025) 9px
+    );
+}
+
+/* ── Focus rings ─────────────────────────────────────────────────────────── */
+.realm-card:focus-visible {
+  outline: 2px solid var(--card-accent);
+  outline-offset: 2px;
+}
+
+.realm-card__sail-btn:focus-visible {
+  outline: 2px solid var(--card-accent);
+  outline-offset: 2px;
+}
+
+/* ── Animations ──────────────────────────────────────────────────────────── */
+@keyframes realmPulse {
+  0%, 100% { opacity: 0.6; box-shadow: 0 0 0 0 transparent; }
+  50%       { opacity: 1;   box-shadow: 0 0 12px 3px color-mix(in srgb, var(--card-accent) 25%, transparent); }
+}
+
+@keyframes realmDreamHaze {
+  from { background-position: 0% 0%; }
+  to   { rotate: 360deg; }
+}
+
+/* ── Abyss / dream_sea text contrast boost ───────────────────────────────── */
+.realm-card--abyss .realm-card__description,
+.realm-card--cosmic_void .realm-card__description {
+  color: #c8d0f0;
+}
+
+.realm-card--dream_sea .realm-card__description {
+  color: #eec8f8;
 }
 
 /* Upgrade/research item */
@@ -1273,6 +2182,24 @@ body.event-birth-of-a-star #event-banner {
 .enc-entry.undiscovered {
   filter: blur(2px) brightness(0.4);
   pointer-events: none;
+}
+
+/* Automation active-indicator pip (used by automationTab compact cards) */
+.automation-active-indicator {
+  position: absolute;
+  top: 0.4rem;
+  left: 0.4rem;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: var(--border);
+  pointer-events: none;
+  transition: background var(--anim-fast), box-shadow var(--anim-fast);
+}
+
+.automation-active-indicator--on {
+  background: var(--accent);
+  box-shadow: 0 0 5px var(--accent-glow);
 }
 
 /* Automation toggle */
@@ -1405,7 +2332,7 @@ body::after {
 /* ---- ≥1024px Desktop: multi-column layout ---- */
 @media (min-width: 1024px) {
   main {
-    grid-template-columns: 420px 1fr;
+    grid-template-columns: minmax(380px, 460px) minmax(0, 1fr);
     grid-template-rows: auto auto 1fr;
     grid-template-areas:
       "cast-area  realm-panel"
@@ -1418,9 +2345,13 @@ body::after {
     padding: 0.5rem 0.8rem;
   }
 
-  #cast-area,
+  #cast-area {
+    height: var(--stage-h);
+  }
+
   #realm-panel {
-    min-height: 280px;
+    max-height: var(--stage-h);
+    overflow-y: auto;
   }
 
   .overlay-panel {
@@ -1428,10 +2359,26 @@ body::after {
   }
 }
 
-/* ---- 768–1023px: icon-only tabs (abbreviated) ---- */
+/* ---- 768–1023px: single column, centered ---- */
 @media (min-width: 768px) and (max-width: 1023px) {
   main {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto auto;
+    grid-template-areas:
+      "cast-area"
+      "realm-panel"
+      "tab-nav"
+      "tab-panels";
+    max-width: 720px;
+  }
+
+  #cast-area {
+    height: clamp(360px, 42vh, 460px);
+  }
+
+  #realm-panel {
+    max-height: 320px;
+    overflow-y: auto;
   }
 
   #tab-nav button {
@@ -1439,53 +2386,66 @@ body::after {
     padding: 0.5rem 0.4rem;
   }
 
-  /* Show abbreviated label from data-tab attribute via abbreviated text */
-  #tab-nav button[data-tab="tab-encyclopedia"] { font-size: 0; }
-  #tab-nav button[data-tab="tab-encyclopedia"]::before { content: "Enc"; font-size: 0.78rem; }
+  /* Abbreviated labels for tablet */
+  #tab-nav button[data-tab="tab-encyclopedia"]::before { content: "Enc"; }
   #tab-nav button[data-tab="tab-upgrades"]::before     { content: ""; }
   #tab-nav button[data-tab="tab-research"]::before     { content: ""; }
   #tab-nav button[data-tab="tab-automation"]::before   { content: ""; }
   #tab-nav button[data-tab="tab-events"]::before       { content: ""; }
   #tab-nav button[data-tab="tab-ascension"]::before    { content: ""; }
-  #tab-nav button[data-tab="tab-statistics"]::before   { content: ""; }
-  #tab-nav button[data-tab="tab-settings"]::before     { content: ""; }
+  #tab-nav button[data-tab="tab-statistics"]::before    { content: ""; }
+  #tab-nav button[data-tab="tab-achievements"]::before  { content: ""; }
+  #tab-nav button[data-tab="tab-settings"]::before      { content: ""; }
 }
 
-/* ---- <768px: single column ---- */
+/* ---- <768px: single column full-width ---- */
 @media (max-width: 767px) {
   main {
     grid-template-columns: 1fr;
-    grid-template-rows: auto auto auto auto 1fr;
+    grid-template-rows: auto auto auto auto;
     grid-template-areas:
       "cast-area"
       "realm-panel"
       "tab-nav"
-      "tab-panels"
       "tab-panels";
     padding: var(--gap-sm);
     gap: var(--gap-sm);
   }
 
-  #cast-area,
+  #cast-area {
+    height: clamp(300px, 38vh, 380px);
+    padding: var(--gap-sm);
+  }
+
   #realm-panel {
-    min-height: 160px;
+    min-height: 0;
     padding: var(--gap-sm);
   }
 
   #tab-nav {
-    overflow-x: scroll;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
     padding: 3px;
+    scrollbar-width: none;
+  }
+
+  #tab-nav::-webkit-scrollbar {
+    display: none;
   }
 
   #tab-nav button {
     font-size: 0.75rem;
     padding: 0.4rem 0.5rem;
     min-width: 60px;
+    min-height: var(--tap-min);
     flex: 0 0 auto;
+    scroll-snap-align: start;
   }
 
   #resource-bar {
-    padding: 0.4rem var(--gap-sm);
+    position: sticky;
+    top: 0;
+    padding: 0.3rem var(--gap-sm);
     font-size: 0.85rem;
     flex-wrap: wrap;
     gap: var(--gap-sm);
@@ -1574,7 +2534,7 @@ input[type="radio"] {
 
 /* Tab fade in */
 @keyframes tab-fade-in {
-  from { opacity: 0; transform: translateY(4px); }
+  from { opacity: 0; transform: translateY(6px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
@@ -1803,6 +2763,50 @@ input[type="radio"] {
 }
 
 /* ============================================================================
+   Ascension Tab — static info sections (ascensionTab.js)
+   ============================================================================ */
+
+/* Requirements chips row */
+.ascension-req-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.4rem;
+}
+
+.ascension-req-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.4;
+  border: 1px solid var(--border);
+}
+
+.ascension-req-chip--met {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--bg);
+}
+
+.ascension-req-chip--unmet {
+  background: var(--bg-surface);
+  color: var(--text-muted);
+  border-color: var(--border);
+}
+
+/* Stats tile grid */
+.ascension-stats-grid {
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  margin-top: 0.4rem;
+}
+
+/* ============================================================================
    WOW#3 — Ascension implosion ritual overlay (ui/ascensionTab.js)
    ============================================================================ */
 .ascension-implosion-overlay {
@@ -1920,3 +2924,2045 @@ body.reduce-animations .impossible-freeze-text {
 }
 body.reduce-animations .implosion-ring { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
 body.reduce-animations .ascension-implosion-overlay::after { opacity: 0; }
+
+/* =============================================================================
+   22. RESEARCH TREE (T4) — All rt-* classes; CSS variables for realm theming.
+       Violet (#7f4fff) and gold (#ffd700) are intentional cross-realm literals.
+   ============================================================================= */
+
+/* --- Container --- */
+#tab-research {
+  position: relative;
+  overflow: auto;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Segoe UI', system-ui, monospace, sans-serif;
+}
+
+/* --- Canvas wrap (sized inline by JS) --- */
+.rt-wrap {
+  position: relative;
+}
+
+/* --- SVG connector overlay --- */
+.rt-svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  overflow: visible;
+}
+
+/* --- RP balance bar (sticky) --- */
+.rt-rp-bar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--accent-dim);
+  box-shadow: 0 1px 6px var(--accent-glow);
+  padding: 6px 12px;
+  font-size: 12px;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* --- Impossible Path inline message --- */
+.rt-impossible-msg {
+  color: #b388ff;
+  font-weight: 600;
+  font-style: italic;
+}
+
+/* --- Next-node nudge: subtle inline hint inside rt-rp-bar --- */
+.rt-next-node {
+  margin-left: 8px;
+  padding-left: 8px;
+  font-size: 11px;
+  color: var(--accent-dim);
+  opacity: 0.8;
+  /* No glow — quiet nudge per glow economy */
+}
+
+/* --- SVG connector base --- */
+.rt-connector {
+  stroke: var(--border);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 3;
+  fill: none;
+}
+
+/* --- Impossible Path connector: violet marching dash --- */
+.rt-connector--impossible {
+  stroke: #7f4fff;
+  stroke-width: 2;
+  stroke-dasharray: 8 4;
+  fill: none;
+  animation: rt-march 1.2s linear infinite;
+}
+
+/* --- Lit connector: completed path segment glowing --- */
+.rt-connector--lit {
+  stroke: var(--accent);
+  stroke-width: 2.5;
+  stroke-dasharray: none;
+  fill: none;
+  filter: drop-shadow(0 0 4px var(--accent-glow));
+}
+
+/* --- Node card base --- */
+.rt-node {
+  box-sizing: border-box;
+  position: absolute;
+  width: 120px;
+  height: 60px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-card);
+  color: var(--text);
+  padding: 6px 8px;
+  font-size: 11px;
+  overflow: hidden;
+  transition: box-shadow .15s, border-color .15s, transform .15s;
+}
+
+/* --- Locked node: dimmed --- */
+.rt-node--locked {
+  opacity: .45;
+}
+
+/* --- Available node: breathing glow pulse --- */
+.rt-node--available {
+  border-color: var(--accent);
+  cursor: pointer;
+  animation: rt-breathe 2s ease-in-out infinite;
+}
+
+/* --- Purchased node: calm lit appearance --- */
+.rt-node--purchased {
+  border-color: var(--accent-dim);
+  background: var(--bg-surface);
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+
+/* --- Igniting node: purchase flash (runs within 450ms window) --- */
+.rt-node--igniting {
+  animation: rt-ignite 400ms ease-out forwards;
+}
+
+/* --- Realm gate node: gold double border --- */
+.rt-node--realm-gate {
+  border-style: double;
+  border-width: 3px;
+  border-color: #ffd700;
+}
+
+.rt-node--realm-gate.rt-node--purchased {
+  border-color: #ffe566;
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.35);
+}
+
+.rt-node--realm-gate.rt-node--available {
+  border-color: #ffd700;
+  box-shadow: 0 0 12px rgba(255, 215, 0, 0.5);
+}
+
+/* --- Impossible Path node: violet inset glow --- */
+.rt-node--impossible-path {
+  box-shadow: inset 0 0 8px rgba(127, 79, 255, 0.5);
+}
+
+.rt-node--impossible-path.rt-node--purchased {
+  background: rgba(127, 79, 255, 0.18);
+  box-shadow: inset 0 0 12px rgba(127, 79, 255, 0.6);
+}
+
+/* --- Node inner layout --- */
+.rt-node__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px;
+  margin-bottom: 2px;
+}
+
+.rt-node__name {
+  font-weight: 700;
+  max-width: 76px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rt-node__cost {
+  font-size: 10px;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.rt-node__prereqs {
+  font-size: 9px;
+  color: var(--text-dim);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 104px;
+}
+
+/* --- Badges --- */
+.rt-node__gate-badge {
+  display: inline-block;
+  font-size: 8px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 1px 4px;
+  border-radius: 3px;
+  background: rgba(255, 215, 0, 0.2);
+  color: #ffd700;
+  border: 1px solid #ffd700;
+  white-space: nowrap;
+}
+
+.rt-node__puzzle-badge {
+  display: inline-block;
+  font-size: 8px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 1px 4px;
+  border-radius: 3px;
+  background: rgba(127, 79, 255, 0.2);
+  color: #b388ff;
+  border: 1px solid #7f4fff;
+  white-space: nowrap;
+}
+
+/* --- Buy button --- */
+.rt-node__buy-btn {
+  display: inline-block;
+  margin-top: 2px;
+  padding: 2px 6px;
+  font-size: 10px;
+  font-family: inherit;
+  background: var(--accent-dim);
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  color: var(--text);
+  cursor: pointer;
+  transition: background .1s, box-shadow .1s;
+  min-height: 0;
+}
+
+.rt-node__buy-btn:hover {
+  background: var(--accent);
+  box-shadow: 0 0 6px var(--accent-glow);
+}
+
+/* --- Shared tooltip --- */
+.rt-tooltip {
+  position: absolute;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: 20;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+  box-shadow: var(--shadow-md);
+  padding: 6px 8px;
+  font-size: 11px;
+  max-width: 220px;
+}
+
+.rt-tooltip[data-show="true"] {
+  visibility: visible;
+}
+
+.rt-tooltip__name {
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 3px;
+}
+
+.rt-tooltip__effect {
+  color: var(--text);
+  font-size: 10px;
+  margin-bottom: 2px;
+}
+
+.rt-tooltip__cost {
+  color: var(--accent);
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.rt-tooltip__prereqs {
+  color: var(--text-dim);
+  font-size: 9px;
+  margin-top: 2px;
+}
+
+/* --- Reduce-animations: disable specific research tree animations --- */
+body.reduce-animations .rt-node--available {
+  animation: none;
+}
+
+body.reduce-animations .rt-connector--impossible {
+  animation: none;
+}
+
+body.reduce-animations .rt-node--igniting {
+  animation: none;
+}
+
+/* --- Impossible-path completion ceremony overlay --- */
+.rt-impossible-ceremony {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9000;
+  pointer-events: none;
+  /* Radial violet aura behind the text */
+  background: radial-gradient(
+    ellipse 60% 40% at 50% 50%,
+    rgba(127, 79, 255, 0.22) 0%,
+    rgba(179, 136, 255, 0.08) 55%,
+    transparent 100%
+  );
+  animation: rt-ceremony 3500ms ease-out forwards;
+  font-size: clamp(1.1rem, 3vw, 1.6rem);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-align: center;
+  color: #b388ff;
+  text-shadow:
+    0 0 12px #7f4fff,
+    0 0 32px rgba(127, 79, 255, 0.6);
+  padding: 2rem;
+}
+
+body.reduce-animations .rt-impossible-ceremony {
+  animation: none;
+  opacity: 1;
+}
+
+/* =============================================================================
+   22a. RESEARCH TREE KEYFRAMES
+   ============================================================================= */
+
+/* Marching dash on impossible-path connectors */
+@keyframes rt-march {
+  to { stroke-dashoffset: -24; }
+}
+
+/* Breathing glow pulse on available nodes */
+@keyframes rt-breathe {
+  0%, 100% {
+    box-shadow: 0 0 4px var(--accent-glow), 0 0 0 0 var(--accent-glow);
+  }
+  50% {
+    box-shadow: 0 0 12px var(--accent-glow), 0 0 20px var(--accent-glow);
+  }
+}
+
+/* Impossible-path ceremony: fade in, hold, fade out within 3500ms */
+@keyframes rt-ceremony {
+  0%   { opacity: 0;    transform: scale(0.94); }
+  12%  { opacity: 1;    transform: scale(1);    }
+  80%  { opacity: 1;    transform: scale(1);    }
+  100% { opacity: 0;    transform: scale(1.03); }
+}
+
+/* Ignite flash on just-purchased node (~400ms) */
+@keyframes rt-ignite {
+  0%   { transform: scale(1);    box-shadow: 0 0 0 0 var(--accent-glow); }
+  25%  { transform: scale(1.08); box-shadow: 0 0 0 8px var(--accent-glow); }
+  60%  { transform: scale(1.04); box-shadow: 0 0 20px var(--accent-glow); }
+  100% { transform: scale(1);    box-shadow: 0 0 4px var(--accent-glow); }
+}
+
+/* =============================================================================
+   T5 — BIG COSMIC WOW PASS
+   Deliverables: living #cosmic-bg, depth layering, glow economy, HUD blur,
+   resource-value pulse, realm submersion, themed scrollbars, reduce-animations.
+   Author: T5 visual-engineering agent. Do not edit tab-nav (T3) or rt-* (T4).
+   ============================================================================= */
+
+/* -----------------------------------------------------------------------------
+   T5-1. #cosmic-bg — fixed living background (REMOVED from grid flow)
+   ----------------------------------------------------------------------------- */
+
+#cosmic-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  /* Default (pond) base — realm classes below override */
+  background-color: var(--bg);
+  transition: background-color 0.6s ease;
+}
+
+/* --- Pond: gentle dappled green light --- */
+body.realm-pond #cosmic-bg {
+  background-color: #1a2a1a;
+  background-image:
+    radial-gradient(ellipse 60% 40% at 30% 40%, rgba(74, 159, 102, 0.12) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 60% at 70% 65%, rgba(95, 216, 138, 0.08) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 35% at 55% 25%, rgba(42, 102, 64, 0.15) 0%, transparent 60%);
+  animation: bg-pond-drift 28s ease-in-out infinite alternate;
+}
+
+@keyframes bg-pond-drift {
+  0%   { background-position: 0% 0%, 0% 0%, 0% 0%; }
+  33%  { background-position: 4% 6%, -3% 4%, 2% -5%; }
+  66%  { background-position: -3% 3%, 5% -3%, -4% 7%; }
+  100% { background-position: 2% -4%, -2% 5%, 3% 2%; }
+}
+
+/* --- Ocean: slow caustic cyan shimmer --- */
+body.realm-ocean #cosmic-bg {
+  background-color: #0a1e2e;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% 30%, rgba(26, 112, 144, 0.18) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 70% at 20% 70%, rgba(48, 200, 232, 0.10) 0%, transparent 60%),
+    radial-gradient(ellipse 55% 40% at 80% 55%, rgba(26, 112, 144, 0.12) 0%, transparent 65%);
+  animation: bg-ocean-caustic 32s ease-in-out infinite alternate;
+}
+
+@keyframes bg-ocean-caustic {
+  0%   { background-position: 0% 0%, 0% 0%, 0% 0%; }
+  40%  { background-position: -5% 8%, 6% -4%, -3% 5%; }
+  80%  { background-position: 4% -6%, -4% 7%, 5% -3%; }
+  100% { background-position: -2% 4%, 3% -2%, -5% 6%; }
+}
+
+/* --- Abyss: slow breathing bioluminescence --- */
+body.realm-abyss #cosmic-bg {
+  background-color: #060812;
+  background-image:
+    radial-gradient(ellipse 45% 55% at 25% 50%, rgba(80, 96, 200, 0.10) 0%, transparent 65%),
+    radial-gradient(ellipse 35% 45% at 75% 30%, rgba(56, 72, 160, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 30% 40% at 55% 80%, rgba(80, 96, 200, 0.07) 0%, transparent 55%);
+  animation: bg-abyss-breathe 22s ease-in-out infinite;
+}
+
+@keyframes bg-abyss-breathe {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.55; }
+}
+
+/* --- Dream Sea: soft drifting lavender/coral gradient morph --- */
+body.realm-dream_sea #cosmic-bg {
+  background-color: #180e24;
+  background-image:
+    radial-gradient(ellipse 70% 50% at 40% 40%, rgba(240, 96, 192, 0.09) 0%, transparent 65%),
+    radial-gradient(ellipse 50% 70% at 70% 65%, rgba(160, 112, 192, 0.10) 0%, transparent 60%),
+    radial-gradient(ellipse 45% 40% at 20% 75%, rgba(240, 96, 192, 0.07) 0%, transparent 55%);
+  animation: bg-dream-drift 35s ease-in-out infinite alternate;
+}
+
+@keyframes bg-dream-drift {
+  0%   { background-position: 0% 0%, 0% 0%, 0% 0%; filter: hue-rotate(0deg); }
+  50%  { background-position: 5% -6%, -4% 5%, 3% -4%; filter: hue-rotate(15deg); }
+  100% { background-position: -3% 5%, 4% -3%, -5% 6%; filter: hue-rotate(-10deg); }
+}
+
+/* --- Time Ocean: slow amber temporal sweep --- */
+body.realm-time_ocean #cosmic-bg {
+  background-color: #1e1400;
+  background-image:
+    radial-gradient(ellipse 90% 40% at 50% 20%, rgba(255, 192, 48, 0.10) 0%, transparent 65%),
+    radial-gradient(ellipse 40% 60% at 30% 70%, rgba(208, 144, 0, 0.08) 0%, transparent 60%),
+    linear-gradient(135deg, rgba(255, 192, 48, 0.04) 0%, transparent 50%, rgba(208, 144, 0, 0.05) 100%);
+  animation: bg-time-sweep 40s linear infinite;
+}
+
+@keyframes bg-time-sweep {
+  0%   { background-position: 0% 0%, 0% 0%, 0% 0%; }
+  100% { background-position: 100% 0%, -50% 100%, 0% 0%; }
+}
+
+/* --- Cosmic Void: drifting starfield with twinkling --- */
+body.realm-cosmic_void #cosmic-bg {
+  background-color: #04020a;
+  background-image:
+    /* Layer 1: large sparse stars */
+    radial-gradient(1.5px 1.5px at  8%  12%, rgba(255,255,255,0.90) 0%, transparent 100%),
+    radial-gradient(1px   1px   at 21%  67%, rgba(255,255,255,0.70) 0%, transparent 100%),
+    radial-gradient(2px   2px   at 44%  31%, rgba(255,255,255,0.85) 0%, transparent 100%),
+    radial-gradient(1px   1px   at 63%  78%, rgba(255,255,255,0.65) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 82%  20%, rgba(255,255,255,0.80) 0%, transparent 100%),
+    radial-gradient(1px   1px   at 91%  55%, rgba(255,255,255,0.60) 0%, transparent 100%),
+    /* Layer 2: medium field */
+    radial-gradient(1px 1px at 15%  45%, rgba(255,255,255,0.55) 0%, transparent 100%),
+    radial-gradient(1px 1px at 34%  88%, rgba(255,255,255,0.50) 0%, transparent 100%),
+    radial-gradient(1px 1px at 57%  14%, rgba(255,255,255,0.60) 0%, transparent 100%),
+    radial-gradient(1px 1px at 73%  42%, rgba(255,255,255,0.45) 0%, transparent 100%),
+    radial-gradient(1px 1px at 88%  82%, rgba(255,255,255,0.55) 0%, transparent 100%),
+    /* Layer 3: dense micro-stars */
+    radial-gradient(1px 1px at  5%  72%, rgba(200,168,248,0.40) 0%, transparent 100%),
+    radial-gradient(1px 1px at 27%  28%, rgba(255,255,255,0.35) 0%, transparent 100%),
+    radial-gradient(1px 1px at 49%  59%, rgba(200,168,248,0.38) 0%, transparent 100%),
+    radial-gradient(1px 1px at 66%  96%, rgba(255,255,255,0.32) 0%, transparent 100%),
+    radial-gradient(1px 1px at 78%   7%, rgba(200,168,248,0.42) 0%, transparent 100%),
+    radial-gradient(1px 1px at 95%  35%, rgba(255,255,255,0.38) 0%, transparent 100%),
+    /* Nebula base */
+    radial-gradient(ellipse 60% 40% at 35% 50%, rgba(144, 96, 255, 0.07) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 55% at 75% 35%, rgba(80, 40, 160, 0.06) 0%, transparent 65%);
+  background-size:
+    100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%,
+    100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%,
+    100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%,
+    100% 100%, 100% 100%;
+  animation: bg-void-drift 60s linear infinite;
+}
+
+@keyframes bg-void-drift {
+  /* Layer 1 large stars drift slowly */
+  0%   { background-position:
+    0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px,
+    0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px,
+    0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px, 0px 0px,
+    0px 0px, 0px 0px;
+  }
+  100% { background-position:
+    -60px -20px, -40px -30px, -80px -10px, -50px -25px, -70px -15px, -45px -35px,
+    -30px -50px, -55px -20px, -35px -40px, -60px -15px, -40px -30px,
+    -20px -60px, -45px -25px, -25px -55px, -50px -20px, -30px -45px, -55px -30px,
+    0px 0px, 0px 0px;
+  }
+}
+
+/* Twinkle opacity overlay for cosmic_void — separate animation on ::before */
+body.realm-cosmic_void #cosmic-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: inherit;
+  animation: bg-void-twinkle 15s ease-in-out infinite alternate;
+  opacity: 0;
+  mix-blend-mode: screen;
+}
+
+@keyframes bg-void-twinkle {
+  0%   { opacity: 0; }
+  30%  { opacity: 0.18; }
+  60%  { opacity: 0.08; }
+  100% { opacity: 0.22; }
+}
+
+/* -----------------------------------------------------------------------------
+   T5-2. DEPTH LAYERING — panels float above the void
+   ----------------------------------------------------------------------------- */
+
+#cast-area,
+#realm-panel {
+  box-shadow:
+    0 0 0 1px rgba(0,0,0,0.4),
+    0 0 24px rgba(0,0,0,0.55),
+    0 0 1px 1px var(--accent-glow),
+    var(--shadow-md);
+  background: color-mix(in srgb, var(--bg-panel) 88%, transparent);
+}
+
+@supports (backdrop-filter: blur(1px)) {
+  #cast-area,
+  #realm-panel {
+    background: color-mix(in srgb, var(--bg-panel) 80%, transparent);
+    backdrop-filter: blur(8px) saturate(1.15);
+    -webkit-backdrop-filter: blur(8px) saturate(1.15);
+  }
+}
+
+.tab-panel {
+  box-shadow:
+    0 0 0 1px rgba(0,0,0,0.35),
+    0 0 20px rgba(0,0,0,0.45),
+    0 0 1px 1px var(--accent-glow);
+  background: color-mix(in srgb, var(--bg-panel) 90%, transparent);
+}
+
+@supports (backdrop-filter: blur(1px)) {
+  .tab-panel {
+    background: color-mix(in srgb, var(--bg-panel) 82%, transparent);
+    backdrop-filter: blur(6px) saturate(1.10);
+    -webkit-backdrop-filter: blur(6px) saturate(1.10);
+  }
+}
+
+/* -----------------------------------------------------------------------------
+   T5-3. GLOW ECONOMY — only 3 things glow prominently
+   Active tab glow is kept (T3). Add cast-btn ready glow + affordable btn glow.
+   Tone down generic .btn hover glow so only meaningful elements shine.
+   ----------------------------------------------------------------------------- */
+
+/* Cast button ready-to-cast glow */
+.cast-btn:not(:disabled) {
+  box-shadow:
+    0 0 14px var(--accent-glow),
+    0 0 2px 1px var(--accent-glow),
+    inset 0 1px 0 rgba(255,255,255,0.08);
+}
+
+.cast-btn:hover:not(:disabled) {
+  box-shadow:
+    0 0 28px var(--accent-glow),
+    0 0 4px 2px var(--accent-glow),
+    inset 0 1px 0 rgba(255,255,255,0.12);
+}
+
+/* Affordable action button glow (upgrade/automation buy buttons when enabled) */
+.btn:not(:disabled):not(.btn-ghost) {
+  box-shadow: 0 0 8px var(--accent-glow);
+}
+
+/* Tone-down .btn hover so it doesn't compete — kept subtle */
+.btn:hover:not(:disabled):not(.btn-ghost) {
+  box-shadow: 0 0 14px var(--accent-glow);
+  transform: translateY(-1px);
+}
+
+/* Ghost buttons should never glow */
+.btn-ghost:not(:disabled) {
+  box-shadow: none;
+}
+
+/* -----------------------------------------------------------------------------
+   T5-4. HUD #resource-bar — backdrop blur + accent glow line
+   ----------------------------------------------------------------------------- */
+
+#resource-bar {
+  background: color-mix(in srgb, var(--bg-surface) 85%, transparent);
+  border-bottom: 1px solid var(--accent-glow);
+  box-shadow:
+    0 1px 0 var(--accent-glow),
+    var(--shadow-sm);
+}
+
+@supports (backdrop-filter: blur(1px)) {
+  #resource-bar {
+    background: color-mix(in srgb, var(--bg-surface) 75%, transparent);
+    backdrop-filter: blur(12px) saturate(1.2);
+    -webkit-backdrop-filter: blur(12px) saturate(1.2);
+  }
+}
+
+/* Resource items */
+.resource-item .resource-icon {
+  display: inline-block;
+  font-size: 1.05rem;
+  line-height: 1;
+  filter: drop-shadow(0 0 4px var(--accent-glow));
+}
+
+.resource-item .resource-label {
+  color: var(--text-muted);
+  font-size: 0.78rem;
+}
+
+.resource-item .resource-value {
+  font-weight: 700;
+  color: var(--accent);
+  transition: color 0.15s ease, transform 0.15s ease;
+  display: inline-block;
+}
+
+/* -----------------------------------------------------------------------------
+   T5-5. RESOURCE VALUE PULSE — satisfying tick under 350ms
+   pulse-IN ~50ms (15% keyframe), settle-BACK ~300ms (to 100%).
+   Total keyframe duration: 350ms. JS removes .value--pulse after 350ms.
+   ----------------------------------------------------------------------------- */
+
+@keyframes resource-value-pulse {
+  0%   {
+    transform: scale(1);
+    filter: brightness(1);
+    color: var(--accent);
+  }
+  15%  {
+    /* ~50ms peak */
+    transform: scale(1.22);
+    filter: brightness(1.6);
+    color: #fff;
+  }
+  40%  {
+    transform: scale(1.10);
+    filter: brightness(1.25);
+    color: var(--accent);
+  }
+  100% {
+    transform: scale(1);
+    filter: brightness(1);
+    color: var(--accent);
+  }
+}
+
+.resource-value.value--pulse {
+  animation: resource-value-pulse 350ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* -----------------------------------------------------------------------------
+   T5-6. REALM SUBMERSION TRANSITION — vignette flash on realm change
+   Refines the existing .realm-transitioning class. Adds a submersion vignette.
+   ----------------------------------------------------------------------------- */
+
+.realm-transitioning::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 50%, transparent 20%, var(--vignette, rgba(0,0,0,0.5)) 100%);
+  z-index: 9990;
+  pointer-events: none;
+  animation: realm-submersion-vignette 0.5s ease-in-out forwards;
+}
+
+@keyframes realm-submersion-vignette {
+  0%   { opacity: 0; }
+  40%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* -----------------------------------------------------------------------------
+   T5-7. THEMED SCROLLBARS — realm accent colors
+   ----------------------------------------------------------------------------- */
+
+#tab-research,
+#realm-panel,
+body {
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-dim) transparent;
+}
+
+#tab-research::-webkit-scrollbar,
+#realm-panel::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+#tab-research::-webkit-scrollbar-track,
+#realm-panel::-webkit-scrollbar-track,
+body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#tab-research::-webkit-scrollbar-thumb,
+#realm-panel::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb {
+  background: var(--accent-dim);
+  border-radius: 3px;
+  opacity: 0.7;
+}
+
+#tab-research::-webkit-scrollbar-thumb:hover,
+#realm-panel::-webkit-scrollbar-thumb:hover,
+body::-webkit-scrollbar-thumb:hover {
+  background: var(--border-light);
+}
+
+/* -----------------------------------------------------------------------------
+   T5-8. REDUCE-ANIMATIONS KILL-SWITCH (critical)
+   ----------------------------------------------------------------------------- */
+
+/* #cosmic-bg: stop all animation */
+body.reduce-animations #cosmic-bg,
+body.reduce-animations #cosmic-bg::before {
+  animation: none;
+}
+
+/* Resource value pulse: disabled */
+body.reduce-animations .resource-value.value--pulse {
+  animation: none;
+}
+
+/* Realm submersion vignette: disabled */
+body.reduce-animations .realm-transitioning::before {
+  animation: none;
+  opacity: 0;
+}
+
+/* Backdrop-filter dream drift filter: none when reduced */
+body.reduce-animations.realm-dream_sea #cosmic-bg,
+body.reduce-animations.realm-dream_sea #cosmic-bg::before {
+  animation: none;
+  filter: none;
+}
+
+/* =============================================================================
+   END T5 — BIG COSMIC WOW PASS
+   ============================================================================= */
+
+/* =============================================================================
+   T6 — SHELL / HUD RESKIN
+   Deliverables: floating HUD resource bar (pills), game-menu tab-nav (icons +
+   top accent bar), lit-slab panels, display-font headings, glow economy.
+   Author: T6 visual-engineering agent. CSS-ONLY. No markup changes.
+   Contract selectors (.cast-btn, .cast-progress-fill, .catch-result,
+   .catch-value) and #cast-area layout are untouched.
+   ============================================================================= */
+
+/* -----------------------------------------------------------------------------
+   T6-1. #resource-bar — floating HUD strip with pill badges
+   ----------------------------------------------------------------------------- */
+
+/* Upgrade the strip itself: full backdrop-blur HUD, rounded bottom corners,
+   faint accent under-glow on the bottom edge.
+   T5 already adds backdrop-filter; we augment background + shadow + shape. */
+#resource-bar {
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+  border-bottom: 1px solid color-mix(in srgb, var(--accent-glow) 60%, transparent);
+  box-shadow:
+    0 2px 0 var(--accent-glow),
+    0 4px 16px rgba(0,0,0,0.45),
+    inset 0 1px 0 rgba(255,255,255,0.05);
+  padding: 0.35rem var(--gap);
+}
+
+/* Each resource item → pill/badge */
+.resource-item {
+  background: color-mix(in srgb, var(--bg-card) 80%, transparent);
+  border: 1px solid color-mix(in srgb, var(--border-light) 60%, transparent);
+  border-radius: 999px;
+  padding: 0.15rem 0.65rem 0.15rem 0.45rem;
+  gap: 0.3rem;
+  font-size: 0.82rem;
+  font-variant-numeric: tabular-nums;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.04), 0 1px 4px rgba(0,0,0,0.3);
+  transition: box-shadow var(--anim-fast);
+}
+
+.resource-item .resource-icon {
+  font-size: 0.95rem;
+  line-height: 1;
+  filter: drop-shadow(0 0 3px var(--accent-glow));
+}
+
+.resource-item .resource-label {
+  color: var(--text-dim);
+  font-size: 0.72rem;
+  letter-spacing: 0.02em;
+}
+
+.resource-item .resource-value {
+  font-weight: 700;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+  transition: color 0.15s ease, transform 0.15s ease;
+  display: inline-block;
+}
+
+/* -----------------------------------------------------------------------------
+   T6-2. .value--pulse — scale + glow flash (tiered up from T5 base)
+   Gate motion under body:not(.reduce-animations).
+   ----------------------------------------------------------------------------- */
+
+@keyframes t6-resource-pulse {
+  0%   { transform: scale(1);    filter: brightness(1) drop-shadow(0 0 0 transparent); }
+  12%  { transform: scale(1.28); filter: brightness(1.8) drop-shadow(0 0 6px var(--accent)); }
+  35%  { transform: scale(1.12); filter: brightness(1.35) drop-shadow(0 0 3px var(--accent-glow)); }
+  100% { transform: scale(1);    filter: brightness(1) drop-shadow(0 0 0 transparent); }
+}
+
+body:not(.reduce-animations) .resource-value.value--pulse {
+  animation: t6-resource-pulse 350ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Static (reduce-animations): no new motion beyond T5 baseline override */
+body.reduce-animations .resource-value.value--pulse {
+  animation: none;
+  transform: none;
+  filter: none;
+}
+
+/* -----------------------------------------------------------------------------
+   T6-3. #tab-nav — game-menu chrome with top accent bar + per-tab icon glyphs
+   ----------------------------------------------------------------------------- */
+
+/* Nav container: slightly more pronounced dark tray */
+#tab-nav {
+  background: color-mix(in srgb, var(--bg-surface) 90%, rgba(0,0,0,0.5));
+  border-color: var(--border);
+  border-radius: var(--radius-md);
+  box-shadow:
+    inset 0 1px 4px rgba(0,0,0,0.5),
+    0 0 0 1px rgba(0,0,0,0.3),
+    var(--shadow-sm);
+  padding: 4px;
+  gap: 3px;
+}
+
+/* Tab button baseline: slightly taller, display font for labels */
+#tab-nav button {
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  letter-spacing: 0.01em;
+  border-radius: var(--radius-sm);
+  position: relative;
+  padding: 0.4rem 0.5rem;
+  /* top accent bar via ::before — hidden on inactive */
+  overflow: visible; /* allow ::after top-bar to poke above */
+}
+
+/* Icon glyphs — always prepended via ::before on full-width nav.
+   The 768–1023px media query below overrides ::before content with
+   abbreviated text; both share this slot cleanly. */
+#tab-nav button[data-tab="tab-encyclopedia"]::before { content: "📖 "; }
+#tab-nav button[data-tab="tab-upgrades"]::before     { content: "⬆️ "; }
+#tab-nav button[data-tab="tab-research"]::before     { content: "🔬 "; }
+#tab-nav button[data-tab="tab-automation"]::before   { content: "⚙️ "; }
+#tab-nav button[data-tab="tab-events"]::before       { content: "✨ "; }
+#tab-nav button[data-tab="tab-ascension"]::before    { content: "🌟 "; }
+#tab-nav button[data-tab="tab-statistics"]::before    { content: "📊 "; }
+#tab-nav button[data-tab="tab-achievements"]::before  { content: "🏆 "; }
+#tab-nav button[data-tab="tab-settings"]::before      { content: "🛠️ "; }
+
+/* Hover: soft lift + faint accent glow */
+#tab-nav button:hover:not(.active):not([aria-selected="true"]) {
+  background: color-mix(in srgb, var(--bg-card) 90%, var(--accent) 10%);
+  color: var(--text);
+  border-color: var(--border-light);
+  box-shadow: 0 0 8px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.04);
+}
+
+body:not(.reduce-animations) #tab-nav button:hover:not(.active):not([aria-selected="true"]) {
+  transform: translateY(-1px);
+  transition:
+    background var(--anim-fast),
+    color var(--anim-fast),
+    border-color var(--anim-fast),
+    box-shadow var(--anim-fast),
+    transform var(--anim-fast);
+}
+
+/* Active tab: top accent bar + inner glow + "connected to panel" feel */
+#tab-nav button.active,
+#tab-nav button[aria-selected="true"] {
+  background: color-mix(in srgb, var(--bg-card) 95%, var(--accent) 5%);
+  color: var(--accent);
+  border-color: var(--accent-dim);
+  border-bottom-color: transparent; /* visually "merges" with panel below */
+  box-shadow:
+    0 0 0 1px var(--accent-glow),
+    0 0 12px var(--accent-glow),
+    inset 0 1px 0 color-mix(in srgb, var(--accent-glow) 80%, transparent),
+    inset 0 -1px 0 color-mix(in srgb, var(--bg-card) 100%, transparent);
+  font-weight: 700;
+  z-index: 2;
+}
+
+/* Top accent bar on active tab (replaces the bottom underline from base styles) */
+#tab-nav button.active::after,
+#tab-nav button[aria-selected="true"]::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 15%;
+  right: 15%;
+  height: 2px;
+  border-radius: 0 0 2px 2px;
+  background: var(--accent);
+  box-shadow: 0 0 8px var(--accent-glow), 0 0 2px var(--accent);
+  bottom: auto; /* override base rule that placed it at bottom */
+}
+
+/* Override the responsive media-query ::before icons for 768–1023px range.
+   The existing media query already sets abbreviated text; we just need to
+   ensure our icon glyphs don't bleed through (the MQ rules have higher
+   specificity because they're inside @media and written after ours). */
+
+/* -----------------------------------------------------------------------------
+   T6-4. .tab-panel and #realm-panel — "lit slab" in-world surfaces
+   ----------------------------------------------------------------------------- */
+
+/* In-world slab: inset top highlight (light-from-above), faint grain,
+   accent rim glow, --radius-lg corners.
+   Additive over T5-2 which already added backdrop-filter + rim glow. */
+.tab-panel {
+  border-radius: var(--radius-lg);
+  border: 1px solid color-mix(in srgb, var(--border) 80%, var(--accent-glow) 20%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.06),    /* top highlight */
+    inset 0 -1px 0 rgba(0,0,0,0.2),           /* bottom shadow edge */
+    0 0 0 1px rgba(0,0,0,0.35),
+    0 0 24px rgba(0,0,0,0.5),
+    0 0 2px 1px var(--accent-glow);
+  /* Very faint grain overlay via pseudo-element approach in background-image */
+  background-image:
+    radial-gradient(ellipse 120% 60% at 50% 0%, rgba(255,255,255,0.025) 0%, transparent 60%);
+}
+
+#realm-panel {
+  border-radius: var(--radius-lg);
+  border: 1px solid color-mix(in srgb, var(--border) 80%, var(--accent-glow) 20%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.06),
+    inset 0 -1px 0 rgba(0,0,0,0.2),
+    0 0 0 1px rgba(0,0,0,0.4),
+    0 0 24px rgba(0,0,0,0.55),
+    0 0 2px 1px var(--accent-glow);
+  background-image:
+    radial-gradient(ellipse 120% 60% at 50% 0%, rgba(255,255,255,0.025) 0%, transparent 60%);
+}
+
+/* =============================================================================
+   T1 — GLOW DISCIPLINE + LAYOUT CENTERING
+   Placed AFTER all cosmetic blocks (~2601/~2920/~3022/~3036) so these win cascade.
+   ============================================================================= */
+
+/* Dim cosmic background — panels read cleaner against a quieter backdrop */
+#cosmic-bg {
+  opacity: 0.5;
+}
+
+/* Remove accent halo from static panel borders — only interactive elements glow.
+   Panels keep the inset highlight and depth shadow but lose the accent rim glow. */
+#cast-area,
+#realm-panel {
+  box-shadow:
+    0 0 0 1px rgba(0,0,0,0.4),
+    0 0 24px rgba(0,0,0,0.55),
+    var(--shadow-md);
+}
+
+@supports (backdrop-filter: blur(1px)) {
+  #cast-area,
+  #realm-panel {
+    backdrop-filter: blur(2px) saturate(1.05);
+    -webkit-backdrop-filter: blur(2px) saturate(1.05);
+  }
+}
+
+.tab-panel {
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.06),
+    inset 0 -1px 0 rgba(0,0,0,0.2),
+    0 0 0 1px rgba(0,0,0,0.35),
+    0 0 24px rgba(0,0,0,0.5);
+}
+
+/* Resource bar: constrain inner content to --content-max, centered */
+#resource-bar {
+  padding-inline: max(var(--gap), calc((100% - var(--content-max)) / 2 + var(--gap)));
+}
+
+/* Inactive tab text: muted */
+#tab-nav button:not(.active):not([aria-selected="true"]) {
+  color: var(--text-muted);
+}
+
+/* Active tab: accent text + glowing 2px underline (placed at bottom, wins cascade) */
+#tab-nav button.active,
+#tab-nav button[aria-selected="true"] {
+  color: var(--accent);
+}
+
+#tab-nav button.active::after,
+#tab-nav button[aria-selected="true"]::after {
+  bottom: 3px;
+  top: auto;
+  background: var(--accent);
+  box-shadow: 0 0 6px var(--accent-glow);
+}
+
+/* Keep cast-btn glow (it's already set in T5-3, no override needed).
+   Remove glow from generic idle text elements. */
+.panel-title,
+.section-title,
+.panel-header h2,
+.panel-header h3 {
+  text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+
+/* -----------------------------------------------------------------------------
+   T6-5. Typography — var(--font-display) on panel/section headings,
+   letter-spacing, faint text-shadow glow. Restrained — no over-glow.
+   ----------------------------------------------------------------------------- */
+
+/* Scope to panel headings to avoid touching cast-area headings (T4-owned) */
+.tab-panel h1,
+.tab-panel h2,
+.tab-panel h3,
+.tab-panel h4,
+#realm-panel h1,
+#realm-panel h2,
+#realm-panel h3,
+#realm-panel h4 {
+  font-family: var(--font-display);
+  letter-spacing: 0.04em;
+  text-shadow: 0 0 12px var(--accent-glow), 0 1px 2px rgba(0,0,0,0.6);
+}
+
+/* Panel section titles (common class in generated panel HTML) */
+.panel-title,
+.section-title,
+.panel-header h2,
+.panel-header h3 {
+  font-family: var(--font-display);
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 10px var(--accent-glow), 0 1px 3px rgba(0,0,0,0.5);
+}
+
+/* -----------------------------------------------------------------------------
+   T6-6. REDUCE-ANIMATIONS — overrides for all T6 new motion
+   ----------------------------------------------------------------------------- */
+
+/* Tab hover lift: disabled */
+body.reduce-animations #tab-nav button {
+  transform: none !important;
+  transition: background var(--anim-fast), color var(--anim-fast), border-color var(--anim-fast) !important;
+}
+
+/* Resource pulse: already covered by T5 + T6-2 override above */
+
+/* =============================================================================
+   END T6 — SHELL / HUD RESKIN
+   ============================================================================= */
+
+/* =============================================================================
+   T7 — RARITY VISUAL LANGUAGE (app-wide consistent tier ladder)
+   Targets: catch cards (.catch-result.rarity-{tier}), badges
+   (.catch-rarity-badge.rarity-{tier}), encyclopedia entries
+   (.enc-entry.rarity-{tier}).
+   Additive CSS only. Preserves all T6 and prior work.
+   Animated treatments gated under body:not(.reduce-animations).
+   Static color+glow fallbacks provided for body.reduce-animations.
+   Contract selectors (.catch-result, .catch-value, .impossible-freeze-overlay)
+   are NOT altered in behaviour or text.
+   ============================================================================= */
+
+/* ---------------------------------------------------------------------------
+   T7 — @keyframes (new, namespaced t7-)
+   --------------------------------------------------------------------------- */
+
+/* Rare: subtle border-sheen sweep */
+@keyframes t7-rare-sheen {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+
+/* Legendary: slow rotating conic-gradient border ring via outline-offset trick
+   implemented as a ::before pseudo-element conic spin */
+@keyframes t7-legendary-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Mythic: fiery ember pulse on box-shadow */
+@keyframes t7-mythic-ember {
+  0%, 100% {
+    box-shadow:
+      0 0 0 2px var(--rarity-mythic-color),
+      0 0 12px 2px var(--rarity-mythic-glow),
+      0 0 28px 4px rgba(255, 96, 48, 0.3);
+  }
+  50% {
+    box-shadow:
+      0 0 0 2px #ff8844,
+      0 0 22px 4px var(--rarity-mythic-glow),
+      0 0 50px 8px rgba(255, 140, 30, 0.5);
+  }
+}
+
+/* Impossible: radiant white pulse + prismatic color-shift */
+@keyframes t7-impossible-radiant {
+  0%, 100% {
+    box-shadow:
+      0 0 0 2px #fff,
+      0 0 16px 3px var(--rarity-impossible-glow),
+      0 0 40px 6px rgba(200, 220, 255, 0.35);
+    filter: hue-rotate(0deg) brightness(1);
+  }
+  33% {
+    box-shadow:
+      0 0 0 2px #aaddff,
+      0 0 22px 5px rgba(120, 200, 255, 0.65),
+      0 0 55px 10px rgba(120, 180, 255, 0.3);
+    filter: hue-rotate(60deg) brightness(1.08);
+  }
+  66% {
+    box-shadow:
+      0 0 0 2px #ffccff,
+      0 0 22px 5px rgba(220, 150, 255, 0.6),
+      0 0 55px 10px rgba(200, 100, 255, 0.25);
+    filter: hue-rotate(120deg) brightness(1.05);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   T7-1. CATCH CARD — .catch-result.rarity-{tier}
+   Override the existing flat rarity rules with card-scoped treatments that
+   use the glow tokens. The existing .rarity-* rules stay; we add specificity
+   via the .catch-result compound selector.
+   --------------------------------------------------------------------------- */
+
+/* common — flat, minimal border, no glow */
+.catch-result.rarity-common {
+  border-color: var(--rarity-common-color) !important;
+  box-shadow: none;
+}
+
+/* uncommon — faint colored border + small glow */
+.catch-result.rarity-uncommon {
+  border-color: var(--rarity-uncommon-color) !important;
+  box-shadow:
+    0 0 0 1px var(--rarity-uncommon-color),
+    0 0 8px 1px var(--rarity-uncommon-glow);
+}
+
+/* rare — 8px blue glow (static base) */
+.catch-result.rarity-rare {
+  border-color: var(--rarity-rare-color) !important;
+  box-shadow:
+    0 0 0 1px var(--rarity-rare-color),
+    0 0 8px 2px var(--rarity-rare-glow),
+    0 0 18px 2px rgba(79, 163, 224, 0.2);
+}
+
+/* rare animated sheen — motion only */
+body:not(.reduce-animations) .catch-result.rarity-rare {
+  background-image: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(79, 163, 224, 0.12) 50%,
+    transparent 60%
+  );
+  background-size: 200% 100%;
+  animation: t7-rare-sheen 2.4s linear infinite;
+}
+
+/* rare static fallback for reduce-animations */
+body.reduce-animations .catch-result.rarity-rare {
+  animation: none;
+  background-image: none;
+  box-shadow:
+    0 0 0 1px var(--rarity-rare-color),
+    0 0 8px 2px var(--rarity-rare-glow);
+}
+
+/* epic — 12px purple glow + brighter border */
+.catch-result.rarity-epic {
+  border-color: var(--rarity-epic-color) !important;
+  box-shadow:
+    0 0 0 1px var(--rarity-epic-color),
+    0 0 12px 3px var(--rarity-epic-glow),
+    0 0 30px 4px rgba(192, 96, 240, 0.2);
+  background-image: linear-gradient(
+    160deg,
+    rgba(192, 96, 240, 0.06) 0%,
+    transparent 60%
+  );
+}
+
+/* legendary — gold glow base (static) + rotating conic ring (motion) */
+.catch-result.rarity-legendary {
+  border-color: transparent !important;
+  box-shadow:
+    0 0 0 2px var(--rarity-legendary-color),
+    0 0 14px 3px var(--rarity-legendary-glow),
+    0 0 34px 5px rgba(255, 215, 0, 0.2),
+    inset 0 0 8px rgba(255, 215, 0, 0.06);
+  position: relative;
+  isolation: isolate;
+}
+
+/* Legendary conic ring — motion only, implemented as a spinning ::before
+   NOTE: the base .rarity-legendary rule already sets ::after via background-clip
+   tricks; we use a dedicated scoped ::before here on the .catch-result only */
+body:not(.reduce-animations) .catch-result.rarity-legendary::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: calc(var(--radius-md) + 2px);
+  background: conic-gradient(
+    from 0deg,
+    var(--rarity-legendary-color) 0%,
+    rgba(255, 215, 0, 0.3) 25%,
+    #fff8c0 45%,
+    rgba(255, 215, 0, 0.3) 60%,
+    var(--rarity-legendary-color) 80%,
+    transparent 100%
+  );
+  z-index: -1;
+  animation: t7-legendary-spin 4s linear infinite;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  padding: 2px;
+  pointer-events: none;
+}
+
+/* Legendary static fallback */
+body.reduce-animations .catch-result.rarity-legendary {
+  animation: none;
+  box-shadow:
+    0 0 0 2px var(--rarity-legendary-color),
+    0 0 14px 3px var(--rarity-legendary-glow);
+}
+
+body.reduce-animations .catch-result.rarity-legendary::before {
+  display: none;
+}
+
+/* mythic — fiery ember border base (static) */
+.catch-result.rarity-mythic {
+  border-color: var(--rarity-mythic-color) !important;
+  box-shadow:
+    0 0 0 2px var(--rarity-mythic-color),
+    0 0 12px 2px var(--rarity-mythic-glow),
+    0 0 28px 4px rgba(255, 96, 48, 0.3);
+}
+
+/* mythic pulsing ember — motion only */
+body:not(.reduce-animations) .catch-result.rarity-mythic {
+  animation: t7-mythic-ember 1.8s ease-in-out infinite;
+}
+
+/* mythic static fallback */
+body.reduce-animations .catch-result.rarity-mythic {
+  animation: none;
+  box-shadow:
+    0 0 0 2px var(--rarity-mythic-color),
+    0 0 12px 2px var(--rarity-mythic-glow);
+}
+
+/* impossible — white radiant glow base (static) */
+.catch-result.rarity-impossible {
+  border-color: var(--rarity-impossible-color) !important;
+  box-shadow:
+    0 0 0 2px #fff,
+    0 0 16px 3px var(--rarity-impossible-glow),
+    0 0 40px 6px rgba(200, 220, 255, 0.35);
+}
+
+/* impossible prismatic/iridescent shimmer — motion only */
+body:not(.reduce-animations) .catch-result.rarity-impossible {
+  animation: t7-impossible-radiant 3s ease-in-out infinite;
+}
+
+/* impossible static fallback */
+body.reduce-animations .catch-result.rarity-impossible {
+  animation: none;
+  box-shadow:
+    0 0 0 2px #fff,
+    0 0 16px 3px var(--rarity-impossible-glow);
+}
+
+/* ---------------------------------------------------------------------------
+   T7-2. BADGES — .catch-rarity-badge.rarity-{tier}
+   Pill: tier-color bg at low alpha, tier-color text, tier-color border.
+   --------------------------------------------------------------------------- */
+
+.catch-rarity-badge {
+  display: inline-block;
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 1px 7px;
+  border-radius: 999px;
+  border: 1px solid currentColor;
+  line-height: 1.6;
+}
+
+.catch-rarity-badge.rarity-common {
+  color: var(--rarity-common-color);
+  background: rgba(158, 184, 160, 0.12);
+  border-color: rgba(158, 184, 160, 0.35);
+}
+
+.catch-rarity-badge.rarity-uncommon {
+  color: var(--rarity-uncommon-color);
+  background: rgba(95, 216, 138, 0.12);
+  border-color: rgba(95, 216, 138, 0.45);
+}
+
+.catch-rarity-badge.rarity-rare {
+  color: var(--rarity-rare-color);
+  background: rgba(79, 163, 224, 0.12);
+  border-color: rgba(79, 163, 224, 0.5);
+  box-shadow: 0 0 4px 1px rgba(79, 163, 224, 0.25);
+}
+
+.catch-rarity-badge.rarity-epic {
+  color: var(--rarity-epic-color);
+  background: rgba(192, 96, 240, 0.12);
+  border-color: rgba(192, 96, 240, 0.55);
+  box-shadow: 0 0 5px 1px rgba(192, 96, 240, 0.3);
+}
+
+.catch-rarity-badge.rarity-legendary {
+  color: var(--rarity-legendary-color);
+  background: rgba(255, 215, 0, 0.12);
+  border-color: rgba(255, 215, 0, 0.6);
+  box-shadow: 0 0 6px 1px rgba(255, 215, 0, 0.35);
+}
+
+.catch-rarity-badge.rarity-mythic {
+  color: var(--rarity-mythic-color);
+  background: rgba(255, 96, 48, 0.12);
+  border-color: rgba(255, 96, 48, 0.6);
+  box-shadow: 0 0 6px 1px rgba(255, 96, 48, 0.35);
+}
+
+.catch-rarity-badge.rarity-impossible {
+  color: var(--rarity-impossible-color);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.7);
+  box-shadow: 0 0 6px 1px rgba(255, 255, 255, 0.4);
+  text-shadow: 0 0 6px rgba(255, 255, 255, 0.7);
+}
+
+/* ---------------------------------------------------------------------------
+   T7-3. ENCYCLOPEDIA ENTRIES — .enc-entry.rarity-{tier}
+   Same tier language applied to entry cards for app-wide consistency.
+   enc-entry already has border + border-radius; we augment border-color and
+   box-shadow using the same tokens. Animated treatments gated same as cards.
+   --------------------------------------------------------------------------- */
+
+.enc-entry.rarity-common {
+  border-color: rgba(158, 184, 160, 0.35);
+}
+
+.enc-entry.rarity-uncommon {
+  border-color: var(--rarity-uncommon-color);
+  box-shadow: 0 0 6px 1px var(--rarity-uncommon-glow);
+}
+
+.enc-entry.rarity-rare {
+  border-color: var(--rarity-rare-color);
+  box-shadow:
+    0 0 8px 2px var(--rarity-rare-glow),
+    0 0 18px 2px rgba(79, 163, 224, 0.15);
+}
+
+body:not(.reduce-animations) .enc-entry.rarity-rare {
+  background-image: linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(79, 163, 224, 0.07) 50%,
+    transparent 60%
+  );
+  background-size: 200% 100%;
+  animation: t7-rare-sheen 3s linear infinite;
+}
+
+body.reduce-animations .enc-entry.rarity-rare {
+  animation: none;
+  background-image: none;
+  box-shadow: 0 0 8px 2px var(--rarity-rare-glow);
+}
+
+.enc-entry.rarity-epic {
+  border-color: var(--rarity-epic-color);
+  box-shadow:
+    0 0 12px 3px var(--rarity-epic-glow),
+    0 0 26px 3px rgba(192, 96, 240, 0.15);
+  background-image: linear-gradient(
+    160deg,
+    rgba(192, 96, 240, 0.04) 0%,
+    transparent 55%
+  );
+}
+
+.enc-entry.rarity-legendary {
+  border-color: var(--rarity-legendary-color);
+  box-shadow:
+    0 0 0 1px var(--rarity-legendary-color),
+    0 0 12px 3px var(--rarity-legendary-glow),
+    0 0 28px 4px rgba(255, 215, 0, 0.15);
+}
+
+/* enc-entry legendary: static gold glow (conic spin too busy in a list) */
+body:not(.reduce-animations) .enc-entry.rarity-legendary {
+  box-shadow:
+    0 0 0 1px var(--rarity-legendary-color),
+    0 0 12px 3px var(--rarity-legendary-glow),
+    0 0 28px 4px rgba(255, 215, 0, 0.15);
+}
+
+.enc-entry.rarity-mythic {
+  border-color: var(--rarity-mythic-color);
+  box-shadow:
+    0 0 0 1px var(--rarity-mythic-color),
+    0 0 12px 2px var(--rarity-mythic-glow),
+    0 0 24px 3px rgba(255, 96, 48, 0.2);
+}
+
+body:not(.reduce-animations) .enc-entry.rarity-mythic {
+  animation: t7-mythic-ember 2.2s ease-in-out infinite;
+}
+
+body.reduce-animations .enc-entry.rarity-mythic {
+  animation: none;
+  box-shadow:
+    0 0 0 1px var(--rarity-mythic-color),
+    0 0 12px 2px var(--rarity-mythic-glow);
+}
+
+.enc-entry.rarity-impossible {
+  border-color: var(--rarity-impossible-color);
+  box-shadow:
+    0 0 0 1px #fff,
+    0 0 14px 3px var(--rarity-impossible-glow),
+    0 0 32px 5px rgba(200, 220, 255, 0.25);
+}
+
+body:not(.reduce-animations) .enc-entry.rarity-impossible {
+  animation: t7-impossible-radiant 3.5s ease-in-out infinite;
+}
+
+body.reduce-animations .enc-entry.rarity-impossible {
+  animation: none;
+  box-shadow:
+    0 0 0 1px #fff,
+    0 0 14px 3px var(--rarity-impossible-glow);
+}
+
+/* ---------------------------------------------------------------------------
+   T7-4. REDUCE-ANIMATIONS — belt-and-suspenders global override
+   Catches any new T7 animation that might be added later, as backup to the
+   explicit per-rule overrides above.
+   --------------------------------------------------------------------------- */
+
+body.reduce-animations .catch-result[class*="rarity-"],
+body.reduce-animations .enc-entry[class*="rarity-"] {
+  animation: none !important;
+  background-image: none !important;
+}
+
+/* Ensure legendary conic ring is suppressed (belt-and-suspenders) */
+body.reduce-animations .catch-result.rarity-legendary::before {
+  display: none !important;
+}
+
+/* =============================================================================
+   END T7 — RARITY VISUAL LANGUAGE
+   ============================================================================= */
+
+/* =============================================================================
+   SHARED FOUNDATION — game-feel UI redesign
+   Shared classes used by all tab views (encyclopedia, upgrades, research,
+   automation, events, ascension, achievements).
+   All colours via var(--*) tokens; no new hex values introduced.
+   ============================================================================= */
+
+/* ---------------------------------------------------------------------------
+   SF-1. GAME GRID — responsive auto-fill card grid
+   --------------------------------------------------------------------------- */
+
+.game-grid {
+  display: grid;
+  gap: .6rem;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+}
+
+/* ---------------------------------------------------------------------------
+   SF-2. GAME CARD — compact interactive card
+   --------------------------------------------------------------------------- */
+
+.game-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 0.65rem 0.75rem;
+  min-height: var(--tap-min);
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+body:not(.reduce-animations) .game-card {
+  transition:
+    border-color var(--anim-fast),
+    box-shadow   var(--anim-fast);
+}
+
+.game-card:hover {
+  border-color: var(--accent-dim);
+  box-shadow: 0 0 10px var(--accent-glow);
+}
+
+.game-card.is-active {
+  border-color: var(--accent);
+  box-shadow: 0 0 16px var(--accent-glow);
+}
+
+.game-card:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Chip — circular glyph badge */
+.game-card__chip {
+  --rod-accent: var(--accent);
+
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle at 40% 35%,
+    color-mix(in srgb, var(--rod-accent) 20%, var(--bg-surface)) 0%,
+    var(--bg-surface) 100%
+  );
+  border: 1px solid color-mix(in srgb, var(--rod-accent) 40%, var(--border));
+  box-shadow:
+    0 0 6px color-mix(in srgb, var(--rod-accent) 25%, transparent),
+    inset 0 0 4px color-mix(in srgb, var(--rod-accent) 10%, transparent);
+  text-shadow: 0 0 5px color-mix(in srgb, var(--rod-accent) 50%, transparent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+  align-self: flex-start;
+  position: relative;
+  isolation: isolate;
+}
+
+/* =============================================================================
+   ROD CHIPS — per-tier accent (game-card__chip--{rodId})
+   ============================================================================= */
+
+/* better_rod — subtle green, flat */
+.game-card__chip--better_rod {
+  --rod-accent: #5fd88a;
+}
+
+/* fine_rod — cyan, metallic inset ring */
+.game-card__chip--fine_rod {
+  --rod-accent: #30c8e8;
+  box-shadow:
+    0 0 8px color-mix(in srgb, #30c8e8 30%, transparent),
+    inset 0 0 0 1px color-mix(in srgb, #30c8e8 35%, transparent),
+    inset 0 1px 0 rgba(255,255,255,0.12);
+}
+
+/* deep_probe — indigo, pulsing scan glow */
+.game-card__chip--deep_probe {
+  --rod-accent: #5060c8;
+  animation: rodDeepScan 2.5s ease-in-out infinite;
+}
+
+/* void_tendril — violet, hue-rotating conic ring via ::before, brightest glow */
+.game-card__chip--void_tendril {
+  --rod-accent: #9060ff;
+  box-shadow:
+    0 0 12px color-mix(in srgb, #9060ff 50%, transparent),
+    0 0 20px color-mix(in srgb, #9060ff 25%, transparent),
+    inset 0 0 6px color-mix(in srgb, #9060ff 20%, transparent);
+}
+
+.game-card__chip--void_tendril::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    #9060ff 0deg,
+    transparent 60deg,
+    #c090ff 180deg,
+    transparent 240deg,
+    #9060ff 360deg
+  );
+  z-index: -1;
+  animation: rodVoid 5s linear infinite;
+  mask: radial-gradient(circle, transparent 45%, #000 46%);
+  -webkit-mask: radial-gradient(circle, transparent 45%, #000 46%);
+  pointer-events: none;
+}
+
+/* ── Rod chip keyframes ───────────────────────────────────────────────────── */
+@keyframes rodDeepScan {
+  0%, 100% {
+    box-shadow:
+      0 0 6px color-mix(in srgb, #5060c8 30%, transparent),
+      inset 0 0 4px color-mix(in srgb, #5060c8 10%, transparent);
+  }
+  50% {
+    box-shadow:
+      0 0 14px color-mix(in srgb, #5060c8 60%, transparent),
+      0 0 24px color-mix(in srgb, #5060c8 25%, transparent),
+      inset 0 0 6px color-mix(in srgb, #5060c8 20%, transparent);
+  }
+}
+
+@keyframes rodVoid {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* =============================================================================
+   END ROD CHIPS
+   ============================================================================= */
+
+/* Name line */
+.game-card__name {
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
+}
+
+/* Secondary stat line */
+.game-card__stat {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ---------------------------------------------------------------------------
+   SF-3. STATUS BADGE — small absolute pill (top-right corner)
+   --------------------------------------------------------------------------- */
+
+.status-badge {
+  position: absolute;
+  top: 0.35rem;
+  right: 0.35rem;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.1rem 0.4rem;
+  border-radius: 999px;
+  line-height: 1.4;
+  white-space: nowrap;
+  pointer-events: none;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  color: var(--text-dim);
+}
+
+.status-badge--owned {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--bg);
+}
+
+.status-badge--affordable {
+  background: var(--bg-surface);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+body:not(.reduce-animations) .status-badge--affordable {
+  animation: sf-badge-pulse 1.8s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .status-badge--affordable {
+    animation: none;
+  }
+}
+
+@keyframes sf-badge-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 var(--accent-glow); }
+  50%       { box-shadow: 0 0 0 4px transparent; }
+}
+
+.status-badge--locked {
+  color: var(--text-dim);
+  border-color: var(--border);
+}
+
+.status-badge--maxed {
+  background: var(--bg-surface);
+  border-color: var(--rarity-legendary-color);
+  color: var(--rarity-legendary-color);
+}
+
+/* ---------------------------------------------------------------------------
+   SF-4. LOCKED CARD STATE
+   --------------------------------------------------------------------------- */
+
+.game-card--locked {
+  opacity: 0.55;
+  filter: saturate(0.3);
+  cursor: default;
+}
+
+.game-card--locked .game-card__chip {
+  filter: blur(3px);
+}
+
+/* Name remains legible — reset blur on name */
+.game-card--locked .game-card__name {
+  filter: none;
+}
+
+/* ---------------------------------------------------------------------------
+   SF-5. CARD DETAIL MODAL (extends .overlay-panel sizing)
+   --------------------------------------------------------------------------- */
+
+.overlay-panel.card-detail {
+  max-width: 480px;
+  width: calc(100% - 2rem);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.card-detail__title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.15rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+  /* Allow chip to sit inline */
+  flex-wrap: wrap;
+}
+
+.card-detail__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.card-detail__desc {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.card-detail__effects {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  font-size: 0.88rem;
+}
+
+.card-detail__effects li::before {
+  content: "▸ ";
+  color: var(--accent);
+}
+
+.card-detail__meta {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  border-top: 1px solid var(--border);
+  padding-top: 0.5rem;
+  margin-top: 0.25rem;
+}
+
+.card-detail__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+}
+
+/* Action button base — consistent with existing button styling */
+[data-card-action] {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 0.45rem 1rem;
+  min-height: var(--tap-min);
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+body:not(.reduce-animations) [data-card-action] {
+  transition: background var(--anim-fast), border-color var(--anim-fast), box-shadow var(--anim-fast);
+}
+
+[data-card-action]:hover {
+  background: var(--bg-card);
+  border-color: var(--accent-dim);
+  box-shadow: 0 0 8px var(--accent-glow);
+}
+
+[data-card-action]:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+[data-card-action][data-primary] {
+  background: var(--accent-dim);
+  border-color: var(--accent);
+  color: var(--bg);
+}
+
+[data-card-action][disabled],
+[data-card-action]:disabled {
+  opacity: 0.45;
+  cursor: default;
+  pointer-events: none;
+}
+
+/* ---------------------------------------------------------------------------
+   SF-6. RARITY BAR — progress-bar-wrap variant with --bar-color custom prop
+   --------------------------------------------------------------------------- */
+
+.rarity-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+}
+
+.rarity-bar__label {
+  flex-shrink: 0;
+  color: var(--text-dim);
+  min-width: 5rem;
+}
+
+.rarity-bar__track {
+  flex: 1;
+  background: var(--bg-card);
+  border-radius: 999px;
+  height: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+.rarity-bar__fill {
+  height: 100%;
+  background: var(--bar-color, var(--accent));
+  border-radius: 999px;
+}
+
+body:not(.reduce-animations) .rarity-bar__fill {
+  transition: width 0.3s ease;
+}
+
+/* ---------------------------------------------------------------------------
+   SF-7. TROPHY CARDS — game-card variants for achievements
+   --------------------------------------------------------------------------- */
+
+.trophy {
+  border-color: var(--rarity-legendary-color);
+  box-shadow: 0 0 8px var(--rarity-legendary-glow);
+}
+
+.trophy .game-card__chip {
+  border-color: var(--rarity-legendary-color);
+}
+
+body:not(.reduce-animations) .trophy {
+  transition:
+    border-color var(--anim-fast),
+    box-shadow   var(--anim-fast);
+}
+
+.trophy--locked {
+  opacity: 0.45;
+  filter: saturate(0.2) brightness(0.7);
+  cursor: default;
+  box-shadow: none;
+  border-color: var(--border);
+}
+
+.trophy--locked .game-card__chip {
+  filter: blur(3px);
+  border-color: var(--border);
+}
+
+/* ---------------------------------------------------------------------------
+   SF-8. RARITY-TINTED GAME CARDS — left accent border + faint glow
+   --------------------------------------------------------------------------- */
+
+.game-card.rarity-common {
+  border-left: 3px solid var(--rarity-common-color);
+  box-shadow: 0 0 6px var(--rarity-common-glow);
+}
+.game-card.rarity-uncommon {
+  border-left: 3px solid var(--rarity-uncommon-color);
+  box-shadow: 0 0 6px var(--rarity-uncommon-glow);
+}
+.game-card.rarity-rare {
+  border-left: 3px solid var(--rarity-rare-color);
+  box-shadow: 0 0 8px var(--rarity-rare-glow);
+}
+.game-card.rarity-epic {
+  border-left: 3px solid var(--rarity-epic-color);
+  box-shadow: 0 0 10px var(--rarity-epic-glow);
+}
+.game-card.rarity-legendary {
+  border-left: 3px solid var(--rarity-legendary-color);
+  box-shadow: 0 0 12px var(--rarity-legendary-glow);
+}
+.game-card.rarity-mythic {
+  border-left: 3px solid var(--rarity-mythic-color);
+  box-shadow: 0 0 14px var(--rarity-mythic-glow);
+}
+.game-card.rarity-impossible {
+  border-left: 3px solid var(--rarity-impossible-color);
+  box-shadow: 0 0 16px var(--rarity-impossible-glow);
+}
+
+/* =============================================================================
+   END SHARED FOUNDATION
+   ============================================================================= */
+
+/* =============================================================================
+   REDUCED MOTION — consolidated kill-switch for all new animations
+   Disables: realmPulse, realmDreamHaze, catchHalo, catchImpossibleJitter,
+             rodDeepScan, rodVoid, and any completion shimmer / instability
+             flicker, dismiss countdown CSS transitions.
+   Static glows / rings are preserved so visual meaning is retained.
+   ============================================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  /* Realm card active breathing pulse */
+  .realm-card--active::after {
+    animation: none;
+  }
+
+  /* Dream Sea conic haze rotation */
+  .realm-card--dream_sea::before {
+    animation: none;
+  }
+
+  /* Completion fill transition */
+  .realm-card__completion-fill {
+    transition: none;
+  }
+
+  /* Instability — no flicker (already static, guard for future) */
+  .realm-card__instability {
+    animation: none;
+  }
+
+  /* Fish halo ring */
+  .catch-artwork::before {
+    animation: none !important;
+  }
+
+  /* Dismiss countdown bar */
+  .catch-dismiss-fill {
+    transition: none;
+  }
+
+  /* Rod scan pulse */
+  .game-card__chip--deep_probe {
+    animation: none;
+  }
+
+  /* Void tendril conic ring */
+  .game-card__chip--void_tendril::before {
+    animation: none;
+  }
+}
+
+/* =============================================================================
+   END REDUCED MOTION
+   ============================================================================= */

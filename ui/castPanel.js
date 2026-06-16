@@ -129,12 +129,17 @@ function _renderCatchCard(catchObj) {
   card.className = `catch-result rarity-${catchObj.rarity || 'common'}`;
   if (catchObj.isImpossible) card.classList.add('catch-impossible');
   if (catchObj.isNewDiscovery) card.classList.add('catch-new-discovery');
+  card.classList.add(`catch-result--${catchObj.rarity || 'common'}`);
+
+  // ── Scrollable upper content (artwork → lore) ────────────────────────────
+  const scrollEl = document.createElement('div');
+  scrollEl.className = 'catch-scroll';
 
   // ── Artwork ──────────────────────────────────────────────────────────────
   const species = speciesById(catchObj.speciesId);
   const artType = species ? species.artworkType : 'emoji';
   const artRef  = species ? species.artworkRef  : '🐟';
-  card.appendChild(_renderArtwork(artType, artRef));
+  scrollEl.appendChild(_renderArtwork(artType, artRef));
 
   // ── Name + rarity badge ───────────────────────────────────────────────────
   const nameRow = document.createElement('div');
@@ -150,7 +155,7 @@ function _renderCatchCard(catchObj) {
 
   nameRow.appendChild(nameEl);
   nameRow.appendChild(rarityBadge);
-  card.appendChild(nameRow);
+  scrollEl.appendChild(nameRow);
 
   // ── Stats row: size + value ───────────────────────────────────────────────
   const statsRow = document.createElement('div');
@@ -167,14 +172,14 @@ function _renderCatchCard(catchObj) {
 
   statsRow.appendChild(sizeEl);
   statsRow.appendChild(valueEl);
-  card.appendChild(statsRow);
+  scrollEl.appendChild(statsRow);
 
   // ── Trait ─────────────────────────────────────────────────────────────────
   if (catchObj.trait) {
     const traitEl = document.createElement('div');
     traitEl.className = 'catch-trait';
     traitEl.textContent = `Trait: ${catchObj.trait}`;
-    card.appendChild(traitEl);
+    scrollEl.appendChild(traitEl);
   }
 
   // ── New discovery label ───────────────────────────────────────────────────
@@ -182,7 +187,7 @@ function _renderCatchCard(catchObj) {
     const newEl = document.createElement('div');
     newEl.className = 'catch-new-label';
     newEl.textContent = 'New Discovery!';
-    card.appendChild(newEl);
+    scrollEl.appendChild(newEl);
   }
 
   // ── Action buttons ────────────────────────────────────────────────────────
@@ -243,6 +248,15 @@ function _renderCatchCard(catchObj) {
     btnRow.appendChild(ffBtn);
   }
 
+  // ── Lore ──────────────────────────────────────────────────────────────────
+  if (species && species.lore) {
+    const loreEl = document.createElement('div');
+    loreEl.className = 'catch-lore';
+    loreEl.textContent = species.lore;
+    scrollEl.appendChild(loreEl);
+  }
+
+  card.appendChild(scrollEl);
   card.appendChild(btnRow);
 
   // ── 15s auto-dismiss → auto-Sell (A-003) ─────────────────────────────────
@@ -364,8 +378,8 @@ export function initCastPanel() {
   });
 
   // resource:change — keep TC button affordability live
-  Bus.on('resource:change', ({ resource }) => {
-    if (resource === 'temporalCrystals') _updateCrystalButtons();
+  Bus.on('resource:change', (payload) => {
+    if (payload && payload.resource === 'temporalCrystals') _updateCrystalButtons();
   });
 
   // catch:new — render catch card (C1)

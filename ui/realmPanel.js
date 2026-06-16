@@ -101,8 +101,9 @@ function realmCardHTML(realm) {
   // Special teaser card for cosmic_void when locked (FR-027)
   if (realm.id === 'cosmic_void' && !realm.unlocked) {
     return `
-      <div class="realm-card realm-card--locked realm-card--teaser" data-realm="${realm.id}">
+      <div class="realm-card realm-card--locked realm-card--teaser realm-card--${realm.id}" data-realm="${realm.id}">
         <div class="realm-card__header">
+          <span class="realm-card__icon" aria-hidden="true">${escHtml(realm.icon || '🌌')}</span>
           <span class="realm-card__name">${escHtml(realm.name)}</span>
           <span class="realm-card__badge realm-card__badge--teaser">Multiverse Teaser</span>
         </div>
@@ -160,11 +161,14 @@ function realmCardHTML(realm) {
     : '';
 
   return `
-    <div class="realm-card ${statusClass}" data-realm="${realm.id}">
+    <div class="realm-card ${statusClass} realm-card--${realm.id}" data-realm="${realm.id}">
       <div class="realm-card__header">
+        <span class="realm-card__icon" aria-hidden="true">${escHtml(realm.icon || '🌊')}</span>
         <span class="realm-card__name">${escHtml(realm.name)}</span>
         ${statusBadge}
       </div>
+      <p class="realm-card__description">${escHtml(realm.description || '')}</p>
+      <span class="realm-card__feature">${escHtml(realm.feature || '')}</span>
       ${instability}
       ${completionBar}
       ${unmetList}
@@ -223,10 +227,14 @@ function onRealmChange(payload, container) {
       clearGlitch();
     }
 
-    // Transition animation on container
+    // Transition animation on container + body submersion vignette
     container.classList.add('realm-panel--transitioning');
     setTimeout(() => {
       try { container.classList.remove('realm-panel--transitioning'); } catch (_) { /* noop */ }
+    }, 600);
+    document.body.classList.add('realm-transitioning');
+    setTimeout(() => {
+      try { document.body.classList.remove('realm-transitioning'); } catch (_) { /* noop */ }
     }, 600);
 
     // Re-render cards

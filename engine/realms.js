@@ -17,6 +17,16 @@ const REALM_NAMES = {
   cosmic_void: 'Cosmic Void',
 };
 
+// ── Realm identity metadata ───────────────────────────────────────────────────
+export const REALM_META = {
+  pond:        { icon: '🪷', accent: '#5fd88a', feature: 'Stillness',  description: 'A quiet lily-dappled pool where the water barely breathes. Soft, forgiving, and full of small wonders.' },
+  ocean:       { icon: '🌊', accent: '#30c8e8', feature: 'Tides',      description: 'Open blue expanse rolling to the horizon. Sunlight fractures into the shallows where bright schools dart.' },
+  abyss:       { icon: '🌑', accent: '#5060c8', feature: 'Pressure',   description: 'The crushing dark below the light. Bioluminescent shapes drift through cold indigo silence.' },
+  dream_sea:   { icon: '🌸', accent: '#f060c0', feature: 'Reverie',    description: 'A half-remembered ocean of lavender mist where fish swim through sleep itself. Nothing here is quite real.' },
+  time_ocean:  { icon: '⏳', accent: '#ffc030', feature: 'Eons',       description: 'Golden currents that flow against the hours. Catches here have already happened, or never will.' },
+  cosmic_void: { icon: '🌌', accent: '#9060ff', feature: 'Infinity',   description: 'The fishing ground at the end of everything. Stars hang like bait in electric violet nothing.' },
+};
+
 // ── Realm gate research node ids (FR-022) ───────────────────────────────────
 const REALM_GATE = {
   ocean:       'oceanography',
@@ -137,6 +147,7 @@ export function getRealms(state) {
     const unlockedRealms = state.unlockedRealms || [];
     const unlocked = unlockedRealms.includes(id);
     const check = canUnlock(id, state);
+    const meta = REALM_META[id] || {};
     return {
       id,
       name: REALM_NAMES[id],
@@ -144,6 +155,10 @@ export function getRealms(state) {
       active: state.currentRealm === id,
       canUnlock: check.ok,
       unmet: check.unmet,
+      description: meta.description,
+      icon: meta.icon,
+      accent: meta.accent,
+      feature: meta.feature,
     };
   });
 }
