@@ -1084,7 +1084,7 @@ body.reduce-animations .tab-panel[aria-hidden="false"] {
   box-shadow: 0 0 10px rgba(79, 163, 224, 0.4);
 }
 
-.rarity-rare::after {
+.catch-result.rarity-rare::after {
   content: '';
   position: fixed;
   inset: 0;
@@ -1101,7 +1101,7 @@ body.reduce-animations .tab-panel[aria-hidden="false"] {
   box-shadow: 0 0 16px rgba(192, 96, 240, 0.5);
 }
 
-.rarity-epic::before {
+.catch-result.rarity-epic::before {
   content: '';
   position: fixed;
   inset: 0;
@@ -1111,34 +1111,43 @@ body.reduce-animations .tab-panel[aria-hidden="false"] {
   animation: epic-flash 0.8s ease-out forwards;
 }
 
-/* Legendary — rainbow border + emphasis */
+/* Legendary — color/border for all contexts */
 .rarity-legendary {
-  border-color: transparent !important;
+  border-color: var(--rarity-legendary-color) !important;
   color: var(--rarity-legendary-color);
-  background-clip: padding-box;
   box-shadow:
     0 0 12px rgba(255, 215, 0, 0.5),
     0 0 28px rgba(255, 215, 0, 0.2),
     inset 0 0 8px rgba(255, 215, 0, 0.1);
+}
+
+/* Legendary — rainbow animation + emphasis (catch reveal only) */
+.catch-result.rarity-legendary {
+  border-color: transparent !important;
+  background-clip: padding-box;
   animation: legendary-rainbow 3s linear infinite;
   outline: 2px solid transparent;
   outline-offset: 2px;
 }
 
-.rarity-legendary .catch-name,
-.rarity-legendary .item-name {
+.catch-result.rarity-legendary .catch-name,
+.catch-result.rarity-legendary .item-name {
   animation: legendary-text-shimmer 2s ease-in-out infinite;
   font-weight: 800;
 }
 
-/* Mythic — pulse glow + vignette */
+/* Mythic — color/border for all contexts */
 .rarity-mythic {
   border-color: var(--rarity-mythic-color) !important;
   color: var(--rarity-mythic-color);
+}
+
+/* Mythic — pulse glow + vignette (catch reveal only) */
+.catch-result.rarity-mythic {
   animation: mythic-pulse 1.8s ease-in-out infinite;
 }
 
-.rarity-mythic::after {
+.catch-result.rarity-mythic::after {
   content: '';
   position: fixed;
   inset: 0;
@@ -3018,7 +3027,9 @@ body.reduce-animations .ascension-implosion-overlay::after { opacity: 0; }
   box-sizing: border-box;
   position: absolute;
   width: 120px;
-  height: 60px;
+  height: 96px;
+  display: flex;
+  flex-direction: column;
   border: 1px solid var(--border);
   border-radius: 8px;
   background: var(--bg-card);
@@ -3056,7 +3067,7 @@ body.reduce-animations .ascension-implosion-overlay::after { opacity: 0; }
 /* --- Realm gate node: gold double border --- */
 .rt-node--realm-gate {
   border-style: double;
-  border-width: 3px;
+  border-width: 2px;
   border-color: #ffd700;
 }
 
@@ -3083,6 +3094,7 @@ body.reduce-animations .ascension-implosion-overlay::after { opacity: 0; }
 /* --- Node inner layout --- */
 .rt-node__header {
   display: flex;
+  flex: 0 0 auto;
   flex-wrap: wrap;
   align-items: baseline;
   gap: 4px;
@@ -3098,12 +3110,14 @@ body.reduce-animations .ascension-implosion-overlay::after { opacity: 0; }
 }
 
 .rt-node__cost {
+  flex: 0 0 auto;
   font-size: 10px;
   color: var(--text-muted);
   white-space: nowrap;
 }
 
 .rt-node__prereqs {
+  flex: 0 0 auto;
   font-size: 9px;
   color: var(--text-dim);
   overflow: hidden;
@@ -3144,7 +3158,8 @@ body.reduce-animations .ascension-implosion-overlay::after { opacity: 0; }
 /* --- Buy button --- */
 .rt-node__buy-btn {
   display: inline-block;
-  margin-top: 2px;
+  flex: 0 0 auto;
+  margin-top: auto;
   padding: 2px 6px;
   font-size: 10px;
   font-family: inherit;
@@ -3483,7 +3498,7 @@ body.realm-cosmic_void #cosmic-bg::before {
   box-shadow:
     0 0 0 1px rgba(0,0,0,0.35),
     0 0 20px rgba(0,0,0,0.45),
-    0 0 1px 1px var(--accent-glow);
+    0 0 0 1px color-mix(in srgb, var(--accent-glow) 60%, transparent);
   background: color-mix(in srgb, var(--bg-panel) 90%, transparent);
 }
 
@@ -3891,10 +3906,22 @@ body:not(.reduce-animations) #tab-nav button:hover:not(.active):not([aria-select
     0 0 0 1px rgba(0,0,0,0.35),
     0 0 24px rgba(0,0,0,0.5),
     0 0 2px 1px var(--accent-glow);
-  /* Very faint grain overlay via pseudo-element approach in background-image */
-  background-image:
-    radial-gradient(ellipse 120% 60% at 50% 0%, rgba(255,255,255,0.025) 0%, transparent 60%);
+  background-image: none;
 }
+
+/* Static top sheen — pinned to visual top of panel, not scrolled content */
+.tab-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 120px;
+  background-image: radial-gradient(ellipse 140% 50% at 50% -10%, rgba(255,255,255,0.04) 0%, transparent 55%);
+  background-repeat: no-repeat;
+  pointer-events: none;
+  z-index: 0;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+.tab-panel { position: relative; }
 
 #realm-panel {
   border-radius: var(--radius-lg);
@@ -3942,7 +3969,8 @@ body:not(.reduce-animations) #tab-nav button:hover:not(.active):not([aria-select
     inset 0 1px 0 rgba(255,255,255,0.06),
     inset 0 -1px 0 rgba(0,0,0,0.2),
     0 0 0 1px rgba(0,0,0,0.35),
-    0 0 24px rgba(0,0,0,0.5);
+    0 0 24px rgba(0,0,0,0.5),
+    0 0 2px 1px var(--accent-glow);
 }
 
 /* Resource bar: constrain inner content to --content-max, centered */
@@ -4339,22 +4367,10 @@ body.reduce-animations .catch-result.rarity-impossible {
   box-shadow:
     0 0 8px 2px var(--rarity-rare-glow),
     0 0 18px 2px rgba(79, 163, 224, 0.15);
-}
-
-body:not(.reduce-animations) .enc-entry.rarity-rare {
-  background-image: linear-gradient(
-    105deg,
-    transparent 40%,
-    rgba(79, 163, 224, 0.07) 50%,
-    transparent 60%
-  );
-  background-size: 200% 100%;
-  animation: t7-rare-sheen 3s linear infinite;
+  background-image: linear-gradient(135deg, transparent 55%, rgba(79, 163, 224, 0.06) 75%, transparent 90%);
 }
 
 body.reduce-animations .enc-entry.rarity-rare {
-  animation: none;
-  background-image: none;
   box-shadow: 0 0 8px 2px var(--rarity-rare-glow);
 }
 
@@ -4392,14 +4408,10 @@ body:not(.reduce-animations) .enc-entry.rarity-legendary {
     0 0 0 1px var(--rarity-mythic-color),
     0 0 12px 2px var(--rarity-mythic-glow),
     0 0 24px 3px rgba(255, 96, 48, 0.2);
-}
-
-body:not(.reduce-animations) .enc-entry.rarity-mythic {
-  animation: t7-mythic-ember 2.2s ease-in-out infinite;
+  background-image: linear-gradient(160deg, rgba(255, 96, 48, 0.04) 0%, transparent 55%);
 }
 
 body.reduce-animations .enc-entry.rarity-mythic {
-  animation: none;
   box-shadow:
     0 0 0 1px var(--rarity-mythic-color),
     0 0 12px 2px var(--rarity-mythic-glow);
@@ -4411,14 +4423,10 @@ body.reduce-animations .enc-entry.rarity-mythic {
     0 0 0 1px #fff,
     0 0 14px 3px var(--rarity-impossible-glow),
     0 0 32px 5px rgba(200, 220, 255, 0.25);
-}
-
-body:not(.reduce-animations) .enc-entry.rarity-impossible {
-  animation: t7-impossible-radiant 3.5s ease-in-out infinite;
+  background-image: linear-gradient(160deg, rgba(200, 220, 255, 0.04) 0%, transparent 55%);
 }
 
 body.reduce-animations .enc-entry.rarity-impossible {
-  animation: none;
   box-shadow:
     0 0 0 1px #fff,
     0 0 14px 3px var(--rarity-impossible-glow);
