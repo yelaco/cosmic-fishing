@@ -269,4 +269,8 @@ export function initRealmPanel() {
 
   // Subscribe to realm:change
   Bus.on('realm:change', payload => onRealmChange(payload, panel));
+
+  // Re-render when research completes so newly-satisfied realm gates
+  // (e.g. Oceanography → Ocean) update their lock state immediately.
+  Bus.on('research:complete', () => renderCards(panel));
 }
