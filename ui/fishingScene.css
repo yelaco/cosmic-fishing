@@ -306,6 +306,17 @@
   animation: rod-idle 4.2s ease-in-out infinite alternate;
 }
 
+/* Rod-rig CSS custom-property defaults (better_rod / no-tier).
+   --rod-base: dominant pole colour
+   --rod-sheen: lighter highlight / sheen stripe
+   --rod-metal: reel / metallic accent
+   These are overridden per data-rod-tier below. */
+.rod-rig {
+  --rod-base:  #5fd88a;
+  --rod-sheen: color-mix(in srgb, var(--accent, #5fd88a) 30%, #c8e8d0 70%);
+  --rod-metal: color-mix(in srgb, var(--accent, #5fd88a) 20%, #a0b8a8 80%);
+}
+
 /* Tapered rod pole: wider at base, thinner at tip */
 .rod-pole {
   position: absolute;
@@ -316,21 +327,21 @@
   border-radius: 3px 1px 1px 3px;
   background: linear-gradient(
     to top,
-    /* base: rich warm cork/graphite */
-    rgba(130, 85, 30, 1) 0%,
-    rgba(180, 125, 50, 0.95) 25%,
-    rgba(140, 100, 40, 0.9) 55%,
-    /* tip: dark narrow graphite */
-    rgba(60, 45, 25, 0.85) 85%,
-    rgba(40, 30, 15, 0.7) 100%
+    /* base: realm-harmonised rod colour */
+    color-mix(in srgb, var(--rod-base) 90%, #1a1a1a 10%) 0%,
+    color-mix(in srgb, var(--rod-base) 70%, var(--rod-sheen) 30%) 25%,
+    color-mix(in srgb, var(--rod-base) 80%, #1a1a1a 20%) 55%,
+    /* tip: darker / narrower */
+    color-mix(in srgb, var(--rod-base) 45%, #0a0a0a 55%) 85%,
+    color-mix(in srgb, var(--rod-base) 30%, #000 70%) 100%
   );
   /* Taper the width: clip-path simulates a narrowing pole */
   clip-path: polygon(0% 100%, 100% 100%, 85% 0%, 15% 0%);
   box-shadow:
     2px 0 4px rgba(0, 0, 0, 0.5),
-    -1px 0 2px rgba(255, 200, 100, 0.15),
+    -1px 0 2px color-mix(in srgb, var(--rod-sheen) 40%, transparent 60%),
     /* 1px edge highlight along the leading face */
-    inset -1px 0 0 rgba(255, 220, 140, 0.35);
+    inset -1px 0 0 color-mix(in srgb, var(--rod-sheen) 55%, transparent 45%);
 }
 
 /* Reel: a ringed disc straddling the pole ~25% from base */
@@ -345,12 +356,12 @@
   background: radial-gradient(
     circle at 38% 32%,
     /* highlight arc at top-left */
-    rgba(230, 230, 240, 0.95) 0%,
-    rgba(160, 160, 180, 0.85) 30%,
-    var(--bg-surface, rgba(50, 50, 70, 0.9)) 60%,
-    rgba(30, 30, 50, 0.95) 100%
+    color-mix(in srgb, var(--rod-metal) 20%, #eef 80%) 0%,
+    color-mix(in srgb, var(--rod-metal) 55%, #a0a0b8 45%) 30%,
+    color-mix(in srgb, var(--rod-metal) 80%, var(--bg-surface, #323246) 20%) 60%,
+    color-mix(in srgb, var(--rod-metal) 60%, #1e1e32 40%) 100%
   );
-  border: 1.5px solid rgba(180, 180, 210, 0.5);
+  border: 1.5px solid color-mix(in srgb, var(--rod-metal) 60%, #b4b4d2 40%);
   /* 2px highlight arc simulated via box-shadow */
   box-shadow:
     0 2px 5px rgba(0, 0, 0, 0.65),
@@ -394,6 +405,130 @@
 @keyframes rod-idle {
   from { transform: rotate(-58deg); }
   to   { transform: rotate(-61deg); }
+}
+
+/* =============================================================================
+   ROD TIER THEMING  (data-rod-tier attribute set by fishingScene.js)
+   ============================================================================= */
+
+/* tier 0 — better_rod (#5fd88a): warm natural starter, harmonises via accent */
+.rod-rig[data-rod-tier="better_rod"] {
+  --rod-base:  #5fd88a;
+  --rod-sheen: color-mix(in srgb, var(--accent, #5fd88a) 25%, #c0e8cc 75%);
+  --rod-metal: color-mix(in srgb, var(--accent, #5fd88a) 20%, #9ab8a4 80%);
+}
+
+/* tier 1 — fine_rod (#30c8e8): refined metallic sheen, gloss stripe */
+.rod-rig[data-rod-tier="fine_rod"] {
+  --rod-base:  #30c8e8;
+  --rod-sheen: #a8f0ff;
+  --rod-metal: #80d8f0;
+}
+
+/* Glossy inset highlight stripe for fine_rod */
+.rod-rig[data-rod-tier="fine_rod"] .rod-pole {
+  box-shadow:
+    2px 0 5px rgba(0, 0, 0, 0.5),
+    -1px 0 3px rgba(160, 240, 255, 0.35),
+    inset -1px 0 0 rgba(168, 240, 255, 0.7),
+    /* bright centre gloss stripe */
+    inset 0 0 0 1px rgba(200, 248, 255, 0.18);
+}
+
+.rod-rig[data-rod-tier="fine_rod"] .rod-reel {
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.6),
+    inset 0 1px 4px rgba(200, 248, 255, 0.45),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.4),
+    0 0 6px 1px rgba(48, 200, 232, 0.3);
+}
+
+/* tier 2 — deep_probe (#5060c8): indigo technical, pulsing scan glow */
+.rod-rig[data-rod-tier="deep_probe"] {
+  --rod-base:  #5060c8;
+  --rod-sheen: #8898e8;
+  --rod-metal: #7080d0;
+}
+
+.rod-rig[data-rod-tier="deep_probe"] .rod-pole {
+  box-shadow:
+    2px 0 4px rgba(0, 0, 0, 0.6),
+    -1px 0 3px rgba(136, 152, 232, 0.4),
+    inset -1px 0 0 rgba(136, 152, 232, 0.55);
+  animation: rod-deep-probe-pulse 2.8s ease-in-out infinite alternate;
+}
+
+.rod-rig[data-rod-tier="deep_probe"] .rod-tip {
+  animation: rod-deep-probe-pulse 2.8s ease-in-out infinite alternate;
+}
+
+@keyframes rod-deep-probe-pulse {
+  from { filter: drop-shadow(0 0 2px rgba(80, 96, 200, 0.4)); }
+  to   { filter: drop-shadow(0 0 7px rgba(80, 96, 200, 0.85)) drop-shadow(0 0 14px rgba(80, 96, 200, 0.3)); }
+}
+
+/* tier 3 — void_tendril (#9060ff): cosmic iridescent, hue-shift animation */
+.rod-rig[data-rod-tier="void_tendril"] {
+  --rod-base:  #9060ff;
+  --rod-sheen: #c8a0ff;
+  --rod-metal: #a878ff;
+}
+
+.rod-rig[data-rod-tier="void_tendril"] .rod-pole {
+  box-shadow:
+    2px 0 6px rgba(0, 0, 0, 0.55),
+    -1px 0 4px rgba(200, 160, 255, 0.5),
+    inset -1px 0 0 rgba(200, 160, 255, 0.75);
+  animation: rod-void-hue 5s linear infinite;
+}
+
+.rod-rig[data-rod-tier="void_tendril"] .rod-reel {
+  box-shadow:
+    0 2px 6px rgba(0, 0, 0, 0.6),
+    inset 0 1px 4px rgba(200, 160, 255, 0.5),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.4),
+    0 0 10px 2px rgba(144, 96, 255, 0.45);
+  animation: rod-void-hue 5s linear infinite;
+}
+
+.rod-rig[data-rod-tier="void_tendril"] .rod-tip {
+  animation: rod-void-hue 5s linear infinite;
+}
+
+@keyframes rod-void-hue {
+  0%   { filter: hue-rotate(0deg)   drop-shadow(0 0 4px rgba(144, 96, 255, 0.7)); }
+  50%  { filter: hue-rotate(60deg)  drop-shadow(0 0 9px rgba(200, 96, 255, 0.9)); }
+  100% { filter: hue-rotate(120deg) drop-shadow(0 0 4px rgba(96, 144, 255, 0.7)); }
+}
+
+/* --- Reduced motion: disable deep_probe pulse + void_tendril hue animation,
+       keep static glow --- */
+body.reduce-animations .rod-rig[data-rod-tier="deep_probe"] .rod-pole,
+body.reduce-animations .rod-rig[data-rod-tier="deep_probe"] .rod-tip {
+  animation: none !important;
+  filter: drop-shadow(0 0 5px rgba(80, 96, 200, 0.65));
+}
+
+body.reduce-animations .rod-rig[data-rod-tier="void_tendril"] .rod-pole,
+body.reduce-animations .rod-rig[data-rod-tier="void_tendril"] .rod-reel,
+body.reduce-animations .rod-rig[data-rod-tier="void_tendril"] .rod-tip {
+  animation: none !important;
+  filter: drop-shadow(0 0 7px rgba(144, 96, 255, 0.8));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rod-rig[data-rod-tier="deep_probe"] .rod-pole,
+  .rod-rig[data-rod-tier="deep_probe"] .rod-tip {
+    animation: none !important;
+    filter: drop-shadow(0 0 5px rgba(80, 96, 200, 0.65));
+  }
+
+  .rod-rig[data-rod-tier="void_tendril"] .rod-pole,
+  .rod-rig[data-rod-tier="void_tendril"] .rod-reel,
+  .rod-rig[data-rod-tier="void_tendril"] .rod-tip {
+    animation: none !important;
+    filter: drop-shadow(0 0 7px rgba(144, 96, 255, 0.8));
+  }
 }
 
 /* =============================================================================

@@ -2,13 +2,16 @@
 // C0: No document/window/matchMedia access at module top level.
 // All DOM access is inside initFishingScene() or its event handlers.
 
-import { Bus } from '../engine/state.js';
+import { Bus, GameState } from '../engine/state.js';
 import { speciesById } from '../data/species.js';
 
 // ─── Module-local state ───────────────────────────────────────────────────────
 
 /** Total cast duration recorded on cast:start (0 when no active cast). */
 let _castTime = 0;
+
+/** Reference to the .rod-rig element (set once the DOM is built). */
+let _rodRig = null;
 
 /** Tracked setTimeout handles so they can all be cancelled at once. */
 let _timers = [];
@@ -167,6 +170,31 @@ export function initFishingScene() {
   area.prepend(_stage);
 
   _setState('idle');
+
+  // ── Rod-tier wiring ───────────────────────────────────────────────────────
+
+  _rodRig = _stage.querySelector('.rod-rig');
+
+  /** Rod chain in ascending tier order. */
+  const _ROD_CHAIN = ['better_rod', 'fine_rod', 'deep_probe', 'void_tendril'];
+
+  /**
+   * _updateRodTier() — reads GameState.ownedUpgrades (array of id strings),
+   * finds the highest-tier rod owned, and sets data-rod-tier on .rod-rig.
+   * Defaults to 'better_rod' when none are owned.
+   */
+  function _updateRodTier() {
+    if (!_rodRig) return;
+    const owned = Array.isArray(GameState.ownedUpgrades) ? GameState.ownedUpgrades : [];
+    let tier = 'better_rod';
+    for (const id of _ROD_CHAIN) {
+      if (owned.includes(id)) tier = id;
+    }
+    _rodRig.dataset.rodTier = tier;
+  }
+
+  // Set tier on mount (reflects any already-purchased upgrades from a loaded save).
+  _updateRodTier();
 
   // ── T3 helpers ────────────────────────────────────────────────────────────
 
@@ -492,6 +520,7 @@ export function initFishingScene() {
   // ── Bus: realm:change ─────────────────────────────────────────────────────
   // T8/m4: { from, to } — CSS token transitions handle the 600ms crossfade automatically
   // via body.realm-* classes (owned by main.js/realmPanel). Our job: guard state.
+  // Realm theming flows automatically through var(--accent) / var(--rod-sheen) etc.
   Bus.on('realm:change', ({ from, to }) => { // eslint-disable-line no-unused-vars
     // If a cast is active (casting/descending/bite), let it finish — do NOT force idle.
     const s = _stage ? _stage.dataset.sceneState : 'idle';
@@ -499,5 +528,12 @@ export function initFishingScene() {
     // Otherwise (idle/reveal/catching): ensure we're at idle so realm repaint is clean.
     _clearTimers();
     _setState('idle');
+  });
+
+  // ── Bus: upgrade:purchased ────────────────────────────────────────────────
+  // Re-evaluate rod tier whenever any upgrade is purchased; rod upgrades
+  // update the tier immediately so the visual escalates on purchase.
+  Bus.on('upgrade:purchased', () => {
+    _updateRodTier();
   });
 }
